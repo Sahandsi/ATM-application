@@ -9,3 +9,4 @@
 *.ipch
 *.opendb
 *.db
+*.tmp
