@@ -40,6 +40,12 @@ const TransactionList BankAccount::getTransactions() const {
 bool BankAccount::isEmptyTransactionList() const {
 	return transactions_.size() == 0;
 }
+void BankAccount::produceTransactionsUpToDate(const Date& date, int& size, string& transactionString) const
+{
+	TransactionList trl = transactions_.getTransactionsUpToDate(date);
+	transactionString = trl.toFormattedString();
+	size = trl.size();
+}
 //static
 const string BankAccount::getAccountType(const string& filename) {
 	return getAccountType(filename[13]); //14th char from the filename ("data/account_101.txt")
@@ -64,6 +70,11 @@ void BankAccount::recordDeposit(double amountToDeposit) {
 	//update active bankaccount
 	transactions_.addNewTransaction(aTransaction);		//update transactions_
 	updateBalance(amountToDeposit);			//increase balance_
+}
+
+void BankAccount::recordDeletionOfTransactionUpToDate(const Date& date) 
+{
+	transactions_.deleteTransactionsUpToDate(date);
 }
 
 double BankAccount::maxBorrowable() const {

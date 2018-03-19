@@ -25,6 +25,23 @@ void UserInterface::endProgram() const
 	cin.get(ch);
 	cin.get(ch);
 }
+void UserInterface::showTransactionsUpToDateOnScreen(bool isEmpty, const Date& date, int size, const string& transactionString) const
+{
+	if (isEmpty == false && transactionString != "")
+	{
+		outputLine(transactionString);
+	}
+	else
+	{
+		ostringstream os;
+		os << "NO TRANSACTION IN BANK ACCOUNT UP TO DATE " << setfill('0');
+		os << setw(2) << date.getDay() << "/";
+		os << setw(2) << date.getMonth() << "/";
+		os << setw(4) << date.getYear();
+		outputLine(os.str());
+	}
+}
+
 int UserInterface::showMainMenuAndGetCommand() const
 {
 	system("cls");
@@ -94,6 +111,43 @@ const string UserInterface::readInAccountToBeProcessed() const {
 	return askForInput("SELECT ACCOUNT TO MANAGE");
 }
 
+bool UserInterface::readInConfirmDeletion() const
+{
+	string input = askForInput("CONFIRM DELETION (N/Y)?");
+	while (input != "n" && input != "N" && input != "y" && input != "Y")
+	{
+		outputLine("WRONG INPUT");
+		input = askForInput("CONFIRM DELETION (N/Y)?");
+	}
+
+	// if the user wants to delete the transactions
+	if (input == "y" || input == "Y")
+	{
+		return true;
+	}
+	// otherwise return false
+	return false;
+}
+
+void UserInterface::showDeletionOfTransactionsUpToDateOnScreen(int size, const Date& date, bool deletionConfirmed) const
+{
+	// output list of transaction deleted if they have been deleted and up to which date
+	if (deletionConfirmed)
+	{
+		ostringstream os;
+		os << "THE " << size << " TRANSACTIONS IN BANK ACCOUNT UP TO DATE " << setfill('0');
+		os << setw(2) << date.getDay() << "/";
+		os << setw(2) << date.getMonth() << "/";
+		os << setw(4) << date.getYear() << " HAVE BEEN DELETED";
+		outputLine(os.str());
+	}
+}
+
+void UserInterface::showNoTransactions() const
+{
+	outputLine("NO TRANSACTIONS IN BANK ACCOUNT");
+}
+
 void UserInterface::showValidateAccountOnScreen(int validCode, const string& accNum) const
 {
 	switch (validCode)
@@ -140,6 +194,34 @@ double UserInterface::readInDepositAmount() const {
 	return (readInPositiveAmount());
 }
 
+Date UserInterface::readInValidDate(const Date& cd) const 
+{
+	
+	outputLine("ENTER A VALID DATE");
+	int day, month, year;
+	outputLine("DAY: ");
+	cin >> day;
+	outputLine("MONTH: ");
+	cin >> month;
+	outputLine("YEAR: ");
+	cin >> year;
+
+	Date aDate(day, month, year);
+	
+	//// if the date is not valid
+	while (!aDate.isValid(cd))
+	{
+		outputLine("INVALID DATE");
+		outputLine("DAY: ");
+		cin >> day;
+		outputLine("MONTH: ");
+		cin >> month;
+		outputLine("YEAR: ");
+		cin >> year;
+		aDate.setDate(day, month, year);
+	}
+	return aDate;
+}
 
 //output functions
 

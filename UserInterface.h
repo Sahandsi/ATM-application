@@ -12,6 +12,8 @@
 //---------------------------------------------------------------------------
 
 #include "constants.h"
+#include "Date.h"
+
 
 #include <iomanip>
 #include <iostream>
@@ -26,14 +28,19 @@ public:
 	int showMainMenuAndGetCommand() const;
 	int showCardMenuAndGetCommand(const string& cardNum) const;
 	int showAccountMenuAndGetCommand(const string& accNum) const;
-
+	
 	void showErrorInvalidCommand() const;
 	void wait() const;
 	void endProgram() const;
+	void showTransactionsUpToDateOnScreen(bool isEmpty, const Date& date, int size, const string& transactionString) const;
 	const string readInCardToBeProcessed() const;
+	Date readInValidDate(const Date& cd) const;
 	void showValidateCardOnScreen(int validCode, const string& cardNum) const;
 	void showCardAccounts(const string& cardNum, const string& cardSt) const;
 	const string readInAccountToBeProcessed() const;
+	bool readInConfirmDeletion() const;
+	void showDeletionOfTransactionsUpToDateOnScreen(int size, const Date& date, bool deletionConfirmed) const;
+	void showNoTransactions() const;
 	void showValidateAccountOnScreen(int valid, const string& acctNum) const;
 
 	static const string cardFilename(const string& cn);

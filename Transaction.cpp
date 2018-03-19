@@ -20,7 +20,9 @@ Transaction::Transaction(const Date& d, const Time& t, const string& s, double a
 { }
 Transaction::Transaction(const string& s, double a)
 : title_(s), amount_(a), date_(Date::currentDate()), time_(Time::currentTime()) //get date and time from system
-{}
+{
+	
+}
 
 //____other public member functions
 const Date Transaction::getDate() const {

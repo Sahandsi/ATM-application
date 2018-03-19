@@ -30,13 +30,12 @@ public:
     const Date getCreationDate() const;
 	double getBalance() const;
     const TransactionList getTransactions() const;
-    bool	isEmptyTransactionList() const;
-
+    bool isEmptyTransactionList() const;
+	void produceTransactionsUpToDate(const Date& d, int& size, string& transactionString) const;
 	//other operations
 	const string prepareFormattedStatement() const;
-
     void recordDeposit(double amount);
-
+	void recordDeletionOfTransactionUpToDate(const Date& date);
 	double maxBorrowable() const;
 	bool canWithdraw(double amount) const;
     void recordWithdrawal(double amount);
@@ -51,7 +50,7 @@ public:
 
 	const string prepareFormattedAccountDetails() const;
 	const string prepareFormattedTransactionList() const;
-
+	
 	static const string getAccountType(const string& filename);
 	static const string getAccountType(char n);
 	

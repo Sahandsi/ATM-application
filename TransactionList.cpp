@@ -26,8 +26,39 @@ const TransactionList TransactionList::olderTransactions() const {
     trlist.deleteFirstTransaction();
     return trlist;
 }
+TransactionList TransactionList::getTransactionsUpToDate(const Date& date) const
+{
+	TransactionList copytr(*this);
+	TransactionList rettr;
+
+	// loop through all the transactions
+	while (copytr.size() > 0)
+	{
+		if (copytr.newestTransaction().getDate() <= date)
+		{
+			rettr.addNewTransaction(copytr.newestTransaction()); // add to the return transaction
+		}
+		copytr.deleteFirstTransaction(); // move along the copy list
+	}
+	return rettr;
+}
 void TransactionList::deleteFirstTransaction() {
     listOfTransactions_.deleteFirst();
+}
+void TransactionList::deleteTransactionsUpToDate(const Date& date)
+{
+	// this-> refers to the actual transaction list not the copy
+	// *this is used to create a copy of transactions list to loop over (copytr)
+
+	TransactionList copytr(*this); // grab a copy to loop over
+	while (copytr.size() > 0)
+	{
+		if (copytr.newestTransaction().getDate() <= date)
+		{
+			this->deleteGivenTransaction(this->newestTransaction());
+		}
+		copytr.deleteFirstTransaction(); // move along the copy list
+	}
 }
 void TransactionList::deleteGivenTransaction(const Transaction& tr) {
     listOfTransactions_.deleteOne(tr);

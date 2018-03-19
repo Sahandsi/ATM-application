@@ -143,6 +143,8 @@ void ATM::executeAccountCommand() {
 					break;
 				case 4:	m_acct4_produceStatement();
 					break;
+				case 8: m_acct8_clearTransactionsUpToDate();
+					break;
 				default:theUI_.showErrorInvalidCommand();
 			}
 			theUI_.wait();
@@ -185,10 +187,49 @@ void ATM::m_acct4_produceStatement() const {
 	theUI_.showStatementOnScreen(p_theActiveAccount_->prepareFormattedStatement());
 }
 
+
+//---option 8
+void ATM::m_acct8_clearTransactionsUpToDate() {
+	assert(p_theActiveAccount_ != nullptr);
+	int size(0);
+	bool deletionConfirmed;
+	Date date;
+	string transactionString = "";
+	// check if the bank account transactions are empty
+	bool isEmpty = p_theActiveAccount_->isEmptyTransactionList();
+	if (isEmpty)
+	{
+		theUI_.showNoTransactions();
+	}
+	else if (!isEmpty)
+	{
+		// get the creation date of the bank account
+		Date cd = p_theActiveAccount_->getCreationDate();
+		// pass in the creation date to the valid date function
+		date = theUI_.readInValidDate(cd);
+		p_theActiveAccount_->produceTransactionsUpToDate(date, size, transactionString);
+		// show the confirmation of transactions to delete
+		theUI_.showTransactionsUpToDateOnScreen(isEmpty, date, size, transactionString);
+
+		// confirm deletion
+		if (!transactionString.empty())
+		{
+			deletionConfirmed = theUI_.readInConfirmDeletion();
+			// delete the transactions if the user wants to
+			if (deletionConfirmed)
+			{
+				p_theActiveAccount_->recordDeletionOfTransactionUpToDate(date);
+			}
+			// display number of transactions deleted
+			theUI_.showDeletionOfTransactionsUpToDateOnScreen(size, date, deletionConfirmed);
+		}
+	}
+}
 //------private file functions
 
 bool ATM::canOpenFile(const string& filename) const {
 	//check if a file already exist
+
 	ifstream inFile;
 	inFile.open(filename.c_str(), ios::in); 	//open file
 	//if does not exist fail() return true
