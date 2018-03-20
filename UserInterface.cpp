@@ -143,6 +143,11 @@ void UserInterface::showDeletionOfTransactionsUpToDateOnScreen(int size, const D
 	}
 }
 
+void UserInterface::searchTransactions(int size, const Date & date) const
+{
+
+}
+
 void UserInterface::showNoTransactions() const
 {
 	outputLine("NO TRANSACTIONS IN BANK ACCOUNT");

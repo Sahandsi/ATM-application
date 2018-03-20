@@ -40,6 +40,7 @@ public:
 	const string readInAccountToBeProcessed() const;
 	bool readInConfirmDeletion() const;
 	void showDeletionOfTransactionsUpToDateOnScreen(int size, const Date& date, bool deletionConfirmed) const;
+	void searchTransactions(int size, const Date& date) const;
 	void showNoTransactions() const;
 	void showValidateAccountOnScreen(int valid, const string& acctNum) const;
 
