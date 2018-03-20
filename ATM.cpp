@@ -143,6 +143,8 @@ void ATM::executeAccountCommand() {
 					break;
 				case 4:	m_acct4_produceStatement();
 					break;
+				case 7: m_acct7_searchForTransactions();
+					break;
 				case 8: m_acct8_clearTransactionsUpToDate();
 					break;
 				default:theUI_.showErrorInvalidCommand();
@@ -185,6 +187,31 @@ void ATM::m_acct3_depositToBankAccount() {
 void ATM::m_acct4_produceStatement() const {
 	assert(p_theActiveAccount_ != nullptr);
 	theUI_.showStatementOnScreen(p_theActiveAccount_->prepareFormattedStatement());
+}
+//option 7
+void ATM::m_acct7_searchForTransactions() {
+	assert(p_theActiveAccount_ != nullptr);
+	Date date;
+	int size(0);
+
+	string transactionString = "";
+	// check if the bank account transactions are empty
+	bool isEmpty = p_theActiveAccount_->isEmptyTransactionList();
+	if (isEmpty)
+	{
+	//	theUI_.showNoEetry();
+	}
+	else if (!isEmpty)
+	{
+		// get the creation date of the bank account
+		Date cd = p_theActiveAccount_->getCreationDate();
+		// pass in the creation date to the valid date function
+		date = theUI_.readInValidDate(cd);
+		p_theActiveAccount_->produceTransactionsUpToDate(date, size, transactionString);
+		// show the confirmation of transactions to delete
+		theUI_.showTransactionsUpToDateOnScreen(isEmpty, date, size, transactionString);
+
+	}
 }
 
 
