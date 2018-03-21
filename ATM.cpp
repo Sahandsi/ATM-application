@@ -64,8 +64,10 @@ void ATM::executeCardCommand(int option) {
 					{
 					case 1: m_card1_manageIndividualAccount();
 						break;
-						default:
-							theUI_.showErrorInvalidCommand();
+					case 2: m_card2_showFundsAvailableOnAllAccounts();
+						break;
+					default:
+						theUI_.showErrorInvalidCommand();
 					}
 
 					theUI_.wait();
@@ -85,6 +87,32 @@ void ATM::m_card1_manageIndividualAccount() {
 	theUI_.showCardAccounts(p_theCard_->getCardNumber(), p_theCard_->toFormattedString());
 	executeAccountCommand();
 }
+void ATM::m_card2_showFundsAvailableOnAllAccounts()
+{
+	assert(p_theCard_ != nullptr);
+	double totalMaxBorrowable = 0;
+	string mad = "";
+	List<string> accts = p_theCard_->getAccountsList();
+	bool empty = accts.isEmpty(); // used to loop through the list
+	bool emptyFirstTime = empty; // check if it was empty first time round
+	while (!empty) // looping through all the acounts and getting the totol funds that can be withdrawn
+	{
+		string firstAccount = accts.first();
+		BankAccount* pacct = activateAccount(theUI_.accountFilename(firstAccount));
+		totalMaxBorrowable += pacct->maxBorrowable();
+		mad +=  pacct->prepareFormattedMiniAccountDetails();
+		// delete the bank account pointer
+		releaseAccount(pacct, firstAccount); 
+		accts.deleteFirst();
+		empty = accts.isEmpty();
+	}
+
+	theUI_.showFundsAvailableOnScreen(emptyFirstTime, mad, totalMaxBorrowable);
+
+}
+
+
+
 int ATM::validateCard(const string& filename) const {
 	//check that the card exists (valid)
 	if (!canOpenFile(filename))   //invalid card

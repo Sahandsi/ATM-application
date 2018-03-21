@@ -49,6 +49,7 @@ public:
 	istream& getAccountDataFromStream(istream& is);
 
 	const string prepareFormattedAccountDetails() const;
+	const string prepareFormattedMiniAccountDetails() const;
 	const string prepareFormattedTransactionList() const;
 	
 	static const string getAccountType(const string& filename);

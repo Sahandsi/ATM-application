@@ -43,7 +43,7 @@ public:
 	void searchTransactions(int size, const Date& date) const;
 	void showNoTransactions() const;
 	void showValidateAccountOnScreen(int valid, const string& acctNum) const;
-
+	void showFundsAvailableOnScreen(bool isAccountEmpty, const string& statement, double totalMaxBorrowable) const;
 	static const string cardFilename(const string& cn);
 	static const string accountFilename(const string& an);
 

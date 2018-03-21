@@ -42,6 +42,23 @@ void UserInterface::showTransactionsUpToDateOnScreen(bool isEmpty, const Date& d
 	}
 }
 
+void UserInterface::showFundsAvailableOnScreen(bool isAccountEmpty, const string& statement, double totalMaxBorrowable) const
+{
+	if (isAccountEmpty) 
+	{
+		outputLine("NO ACCOUNT ACCESSIBLE WITH THIS CARD");
+	}
+	else
+	{
+		ostringstream os;
+		os << statement;
+		os << "\n" << setfill(' ');
+		os << "\n      TOTOAL AVAILABLE FUNDS: \234" << totalMaxBorrowable;
+		outputLine(os.str());
+	}
+	
+}
+
 int UserInterface::showMainMenuAndGetCommand() const
 {
 	system("cls");
@@ -175,6 +192,8 @@ void UserInterface::showValidateAccountOnScreen(int validCode, const string& acc
 	} break;
 	}
 }
+
+
 
 //static 
 const string UserInterface::cardFilename(const string& cn) {
