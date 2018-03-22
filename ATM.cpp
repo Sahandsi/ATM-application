@@ -64,8 +64,10 @@ void ATM::executeCardCommand(int option) {
 					{
 					case 1: m_card1_manageIndividualAccount();
 						break;
-						default:
-							theUI_.showErrorInvalidCommand();
+					case 2: m_card2_showFundsAvailableOnAllAccounts();
+						break;
+					default:
+						theUI_.showErrorInvalidCommand();
 					}
 
 					theUI_.wait();
@@ -85,6 +87,32 @@ void ATM::m_card1_manageIndividualAccount() {
 	theUI_.showCardAccounts(p_theCard_->getCardNumber(), p_theCard_->toFormattedString());
 	executeAccountCommand();
 }
+void ATM::m_card2_showFundsAvailableOnAllAccounts()
+{
+	assert(p_theCard_ != nullptr);
+	double totalMaxBorrowable = 0;
+	string mad = "";
+	List<string> accts = p_theCard_->getAccountsList();
+	bool empty = accts.isEmpty(); // used to loop through the list
+	bool emptyFirstTime = empty; // check if it was empty first time round
+	while (!empty) // looping through all the acounts and getting the totol funds that can be withdrawn
+	{
+		string firstAccount = accts.first();
+		BankAccount* pacct = activateAccount(theUI_.accountFilename(firstAccount));
+		totalMaxBorrowable += pacct->maxBorrowable();
+		mad +=  pacct->prepareFormattedMiniAccountDetails();
+		// delete the bank account pointer
+		releaseAccount(pacct, firstAccount); 
+		accts.deleteFirst();
+		empty = accts.isEmpty();
+	}
+
+	theUI_.showFundsAvailableOnScreen(emptyFirstTime, mad, totalMaxBorrowable);
+
+}
+
+
+
 int ATM::validateCard(const string& filename) const {
 	//check that the card exists (valid)
 	if (!canOpenFile(filename))   //invalid card
@@ -143,6 +171,11 @@ void ATM::executeAccountCommand() {
 					break;
 				case 4:	m_acct4_produceStatement();
 					break;
+
+					//question 3a 
+				case 6: m_acct6_showMiniStatement();
+					break;
+
 				case 7: m_acct7_searchForTransactions();
 					break;
 				case 8: m_acct8_clearTransactionsUpToDate();
@@ -249,6 +282,28 @@ void ATM::m_acct4_produceStatement() const {
 	assert(p_theActiveAccount_ != nullptr);
 	theUI_.showStatementOnScreen(p_theActiveAccount_->prepareFormattedStatement());
 }
+<<<<<<< HEAD
+=======
+
+//---option 6 question 3a
+void ATM::m_acct6_showMiniStatement() {
+	assert(p_theActiveAccount_ != nullptr);
+	//check if there are any transactions 
+	bool isEmpty = p_theActiveAccount_->isEmptyTransactionList();
+	//get user input 
+	int number = theUI_.readInNumberOfTransactions();
+	string str = p_theActiveAccount_->produceNMostRecentTransactions(number).first;
+	double total = p_theActiveAccount_->produceNMostRecentTransactions(number).second;
+	string mad = p_theActiveAccount_->prepareFormattedMiniAccountDetails();
+	theUI_.showMiniStatementOnScreen(isEmpty, total, mad + str);
+}
+
+//option 7
+void ATM::m_acct7_searchForTransactions() {
+	assert(p_theActiveAccount_ != nullptr);
+	Date date;
+	int size(0);
+>>>>>>> b4d8ef8bda4a9f4fecdb4b48306e9314c0b6da10
 
 //---option 7
 void ATM::m_acct7_searchForTransactions() const
@@ -263,7 +318,6 @@ void ATM::m_acct7_searchForTransactions() const
 		searchTransactions();
 	}	
 }
-
 
 //---option 8
 void ATM::m_acct8_clearTransactionsUpToDate() {

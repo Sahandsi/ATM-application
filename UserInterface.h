@@ -13,7 +13,11 @@
 
 #include "constants.h"
 #include "Date.h"
+<<<<<<< HEAD
+#include "Time.h"
+=======
 
+>>>>>>> 624b5ba771d6d3a06ddb60252178327263f2488a
 
 #include <iomanip>
 #include <iostream>
@@ -50,22 +54,25 @@ public:
 	void showNoTransactionsOnScreen() const;
 	void showMatchingTransactionsOnScreen() const;
 	void showValidateAccountOnScreen(int valid, const string& acctNum) const;
-
+	void showFundsAvailableOnScreen(bool isAccountEmpty, const string& statement, double totalMaxBorrowable) const;
 	static const string cardFilename(const string& cn);
 	static const string accountFilename(const string& an);
 
 	double readInWithdrawalAmount() const;
 	double readInDepositAmount() const;
+	int readInNumberOfTransactions() const;
 
 	void showProduceBalanceOnScreen(double bal) const;
 	void showDepositOnScreen(bool auth, double deposit) const;
 	void showWithdrawalOnScreen(bool auth, double withdrawal) const;
 	void showStatementOnScreen(const string&) const;
+	void showMiniStatementOnScreen(bool, double, string)const;
 
 private:
 	//support functions
 	int readInCommand() const;
 	double readInPositiveAmount() const;
+	int readInPositiveNumber() const;
 	void outputHeader(const string&) const;
 	string askForInput(const string&) const;
 	void outputLine(const string&) const;
