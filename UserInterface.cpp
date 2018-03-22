@@ -42,6 +42,34 @@ void UserInterface::showTransactionsUpToDateOnScreen(bool isEmpty, const Date& d
 	}
 }
 
+void UserInterface::showMatchingTransactionsOnScreen(double amount, int size, const string & transString) const
+{
+	ostringstream os;
+	os << transString;
+	os << "\n\n\tTHERE ARE " << size << " TRANSACTIONS MATCHING THAT SEARCH CRITERION: " << amount;
+	outputLine(os.str());
+}
+
+void UserInterface::showMatchingTransactionsOnScreen(const string& title, int size, const string& transString) const
+{
+	ostringstream os;
+	os << transString;
+	os << "\n\n\tTHERE ARE " << size << " TRANSACTIONS MATCHING THAT SEARCH CRITERION: " << title;
+	outputLine(os.str());
+}
+
+void UserInterface::showMatchingTransactionsOnScreen(const Date& date, int size, const string & transString) const
+{
+	ostringstream os;
+	os << transString;
+	os << "\n\n\tTHERE ARE " << size << " TRANSACTIONS MATCHING THAT SEARCH CRITERION: ";
+	os << setfill('0');
+	os << setw(2) << date.getDay() << "/";
+	os << setw(2) << date.getMonth() << "/";
+	os << setw(4) << date.getYear();
+	outputLine(os.str());
+}
+
 int UserInterface::showMainMenuAndGetCommand() const
 {
 	system("cls");
@@ -68,6 +96,16 @@ int UserInterface::showAccountMenuAndGetCommand(const string& accNum) const
 	outputLine(" 9          Transfer to another account  // TO BE IMPLEMENTED FOR Task 1c");
 	outputLine("----------------------------------------");
 	return (readInCommand());
+}
+
+void UserInterface::showSearchMenu() const
+{
+	outputHeader("Search Menu");
+	outputLine(" 0           Search By Amount ");
+	outputLine(" 1           Search By Title ");
+	outputLine(" 2           Search By Date");
+	outputLine(" 3           Exit search menu");
+	outputLine("----------------------------------------");
 }
 
 const string UserInterface::readInCardToBeProcessed() const {
@@ -143,14 +181,14 @@ void UserInterface::showDeletionOfTransactionsUpToDateOnScreen(int size, const D
 	}
 }
 
-void UserInterface::searchTransactions(int size, const Date & date) const
-{
-
-}
-
-void UserInterface::showNoTransactions() const
+void UserInterface::showNoTransactionsOnScreen() const
 {
 	outputLine("NO TRANSACTIONS IN BANK ACCOUNT");
+}
+
+void UserInterface::showMatchingTransactionsOnScreen() const
+{
+	outputLine("NO TRANSACTION IN BANK ACCOUNT MATCH THE SEARCH CRITERION GIVEN");
 }
 
 void UserInterface::showValidateAccountOnScreen(int validCode, const string& accNum) const
@@ -226,6 +264,37 @@ Date UserInterface::readInValidDate(const Date& cd) const
 		aDate.setDate(day, month, year);
 	}
 	return aDate;
+}
+
+int UserInterface::readInSearchCommand() const
+{
+	return readInCommand();
+}
+
+string UserInterface::readInTitle() const
+{
+	string title;
+	title = askForInput("ENTER TITLE TO SEARCH ON TRANSACTIONS");
+	cin.clear();
+	while (title.empty())
+	{
+		title = askForInput("ENTER TITLE TO SEARCH ON TRANSACTIONS");
+		cin.clear();
+	}
+	return title;
+}
+
+double UserInterface::readInAmount() const
+{
+	double amount;
+	outputLine("ENTER AMOUNT TO SEARCH ON TRANSACTIONS: ");
+	cin >> amount;
+	return amount;
+}
+
+Date UserInterface::readInDate(const Date& creationDate) const
+{
+	return readInValidDate(creationDate);
 }
 
 //output functions

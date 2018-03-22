@@ -28,20 +28,27 @@ public:
 	int showMainMenuAndGetCommand() const;
 	int showCardMenuAndGetCommand(const string& cardNum) const;
 	int showAccountMenuAndGetCommand(const string& accNum) const;
-	
+	void showSearchMenu() const;
 	void showErrorInvalidCommand() const;
 	void wait() const;
 	void endProgram() const;
 	void showTransactionsUpToDateOnScreen(bool isEmpty, const Date& date, int size, const string& transactionString) const;
+	void showMatchingTransactionsOnScreen(double amount, int size, const string& transString) const;
+	void showMatchingTransactionsOnScreen(const string& title, int size, const string& transString) const;
+	void showMatchingTransactionsOnScreen(const Date& date, int size, const string& transString) const;
 	const string readInCardToBeProcessed() const;
 	Date readInValidDate(const Date& cd) const;
+	int readInSearchCommand() const;
+	string readInTitle() const;
+	double readInAmount()  const;
+	Date readInDate(const Date& date) const;
 	void showValidateCardOnScreen(int validCode, const string& cardNum) const;
 	void showCardAccounts(const string& cardNum, const string& cardSt) const;
 	const string readInAccountToBeProcessed() const;
 	bool readInConfirmDeletion() const;
 	void showDeletionOfTransactionsUpToDateOnScreen(int size, const Date& date, bool deletionConfirmed) const;
-	void searchTransactions(int size, const Date& date) const;
-	void showNoTransactions() const;
+	void showNoTransactionsOnScreen() const;
+	void showMatchingTransactionsOnScreen() const;
 	void showValidateAccountOnScreen(int valid, const string& acctNum) const;
 
 	static const string cardFilename(const string& cn);

@@ -94,6 +94,27 @@ void BankAccount::recordWithdrawal(double amountToWithdraw) {
 	updateBalance(-amountToWithdraw);			//decrease balance_
 }
 
+void BankAccount::produceTransactionsForAmount(double amount, string& transactionString, int& size) const
+{
+	TransactionList trl = transactions_.getTransactionsForAmount(amount);
+	size = trl.size();
+	transactionString = trl.toFormattedString();
+}
+
+void BankAccount::produceTransactionsForTitle(const string& title, string& transString, int& size) const
+{
+	TransactionList trl = transactions_.getTransactionsForTitle(title);
+	size = trl.size();
+	transString = trl.toFormattedString();
+}
+
+void BankAccount::produceTransactionsForDate(const Date & date, string & transString, int & size) const
+{
+	TransactionList trl = transactions_.getTransactionsForDate(date);
+	size = trl.size();
+	transString = trl.toFormattedString();
+}
+
 const string BankAccount::prepareFormattedStatement() const {
 	ostringstream os;
 	//account details

@@ -158,6 +158,67 @@ void ATM::executeAccountCommand() {
 	}
 }
 
+void ATM::searchTransactions() const
+{
+	theUI_.showSearchMenu();
+	int option = theUI_.readInSearchCommand();
+	switch (option)
+	{
+		case 0:
+			m_trl1_showTransactionsForAmount();
+			break;
+		case 1:
+			m_trl1_showTransactionsForTitle();
+			break;
+		case 2: 
+			m_trl1_showTransactionsForDate();
+		case 3: 
+			return;
+		default:
+			break;
+	}
+
+}
+
+void ATM::m_trl1_showTransactionsForAmount() const
+{
+	string transString;
+	int size;
+
+	double amount = theUI_.readInAmount();
+	p_theActiveAccount_->produceTransactionsForAmount(amount, transString, size);
+	if (transString == "")
+		theUI_.showMatchingTransactionsOnScreen();
+	else 
+		theUI_.showMatchingTransactionsOnScreen(amount, size, transString);
+}
+
+void ATM::m_trl1_showTransactionsForTitle() const
+{
+	string transString;
+	int size;
+
+	string title = theUI_.readInTitle();
+	p_theActiveAccount_->produceTransactionsForTitle(title, transString, size);
+	if (transString == "")
+		theUI_.showMatchingTransactionsOnScreen();
+	else
+		theUI_.showMatchingTransactionsOnScreen(title, size, transString);
+}
+
+void ATM::m_trl1_showTransactionsForDate() const
+{
+	string transString;
+	int size;
+	Date cd = p_theActiveAccount_->getCreationDate();
+	Date date = theUI_.readInDate(cd);
+	p_theActiveAccount_->produceTransactionsForDate(date, transString, size);
+	if (transString == "")
+		theUI_.showMatchingTransactionsOnScreen();
+	else
+		theUI_.showMatchingTransactionsOnScreen(date, size, transString);
+	
+}
 //------ menu options
 //---option 1
 void ATM::m_acct1_produceBalance() const {
@@ -188,30 +249,19 @@ void ATM::m_acct4_produceStatement() const {
 	assert(p_theActiveAccount_ != nullptr);
 	theUI_.showStatementOnScreen(p_theActiveAccount_->prepareFormattedStatement());
 }
-//option 7
-void ATM::m_acct7_searchForTransactions() {
-	assert(p_theActiveAccount_ != nullptr);
-	Date date;
-	int size(0);
 
-	string transactionString = "";
-	// check if the bank account transactions are empty
+//---option 7
+void ATM::m_acct7_searchForTransactions() const
+{
 	bool isEmpty = p_theActiveAccount_->isEmptyTransactionList();
 	if (isEmpty)
 	{
-	//	theUI_.showNoEetry();
+		theUI_.showNoTransactionsOnScreen();
 	}
-	else if (!isEmpty)
+	else
 	{
-		// get the creation date of the bank account
-		Date cd = p_theActiveAccount_->getCreationDate();
-		// pass in the creation date to the valid date function
-		date = theUI_.readInValidDate(cd);
-		p_theActiveAccount_->produceTransactionsUpToDate(date, size, transactionString);
-		// show the confirmation of transactions to delete
-		theUI_.showTransactionsUpToDateOnScreen(isEmpty, date, size, transactionString);
-
-	}
+		searchTransactions();
+	}	
 }
 
 
@@ -226,7 +276,7 @@ void ATM::m_acct8_clearTransactionsUpToDate() {
 	bool isEmpty = p_theActiveAccount_->isEmptyTransactionList();
 	if (isEmpty)
 	{
-		theUI_.showNoTransactions();
+		theUI_.showNoTransactionsOnScreen();
 	}
 	else if (!isEmpty)
 	{

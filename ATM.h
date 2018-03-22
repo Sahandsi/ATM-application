@@ -35,7 +35,10 @@ private:
 	void executeCardCommand(int);
 	int  validateAccount(const string&) const;
 	void executeAccountCommand();
- 
+	void searchTransactions() const;
+	void m_trl1_showTransactionsForAmount() const;
+	void m_trl1_showTransactionsForTitle() const;
+	void m_trl1_showTransactionsForDate() const;
 	//card menu commands
 	void m_card1_manageIndividualAccount();
 	//account menu commands
@@ -43,7 +46,7 @@ private:
     void m_acct2_withdrawFromBankAccount();
     void m_acct3_depositToBankAccount();
     void m_acct4_produceStatement() const;
-	void m_acct7_searchForTransactions();
+	void m_acct7_searchForTransactions() const;
 	void m_acct8_clearTransactionsUpToDate();
 
     //support file handling functions and creation of dynamic objects

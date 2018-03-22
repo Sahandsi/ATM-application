@@ -42,6 +42,56 @@ TransactionList TransactionList::getTransactionsUpToDate(const Date& date) const
 	}
 	return rettr;
 }
+TransactionList TransactionList::getTransactionsForAmount(double amount) const
+{
+	TransactionList copytr(*this);
+	TransactionList rettr;
+
+	// loop through all the transactions
+	while (copytr.size() > 0)
+	{
+		if (copytr.newestTransaction().getAmount() == amount)
+		{
+			rettr.addNewTransaction(copytr.newestTransaction()); // add to the return transaction
+		}
+		copytr.deleteFirstTransaction(); // move along the copy list
+	}
+	return rettr;
+}
+TransactionList TransactionList::getTransactionsForTitle(const string & title) const
+{
+	TransactionList copytr(*this);
+	TransactionList rettr;
+
+	// loop through all the transactions
+	while (copytr.size() > 0)
+	{
+		//https://stackoverflow.com/questions/2340281/check-if-a-string-contains-a-string-in-c
+		if (copytr.newestTransaction().getTitle().find(title) != string::npos)
+		{
+			rettr.addNewTransaction(copytr.newestTransaction()); // add to the return transaction
+		}
+		copytr.deleteFirstTransaction(); // move along the copy list
+	}
+	return rettr;
+}
+TransactionList TransactionList::getTransactionsForDate(const Date& date) const
+{
+	TransactionList copytr(*this);
+	TransactionList rettr;
+
+	// loop through all the transactions
+	while (copytr.size() > 0)
+	{
+		//https://stackoverflow.com/questions/2340281/check-if-a-string-contains-a-string-in-c
+		if (copytr.newestTransaction().getDate() == date)
+		{
+			rettr.addNewTransaction(copytr.newestTransaction()); // add to the return transaction
+		}
+		copytr.deleteFirstTransaction(); // move along the copy list
+	}
+	return rettr;
+}
 void TransactionList::deleteFirstTransaction() {
     listOfTransactions_.deleteFirst();
 }
