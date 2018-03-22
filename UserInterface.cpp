@@ -42,7 +42,6 @@ void UserInterface::showTransactionsUpToDateOnScreen(bool isEmpty, const Date& d
 	}
 }
 
-<<<<<<< HEAD
 void UserInterface::showMatchingTransactionsOnScreen(double amount, int size, const string & transString) const
 {
 	ostringstream os;
@@ -69,23 +68,6 @@ void UserInterface::showMatchingTransactionsOnScreen(const Date& date, int size,
 	os << setw(2) << date.getMonth() << "/";
 	os << setw(4) << date.getYear();
 	outputLine(os.str());
-=======
-void UserInterface::showFundsAvailableOnScreen(bool isAccountEmpty, const string& statement, double totalMaxBorrowable) const
-{
-	if (isAccountEmpty) 
-	{
-		outputLine("NO ACCOUNT ACCESSIBLE WITH THIS CARD");
-	}
-	else
-	{
-		ostringstream os;
-		os << statement;
-		os << "\n" << setfill(' ');
-		os << "\n      TOTOAL AVAILABLE FUNDS: \234" << totalMaxBorrowable;
-		outputLine(os.str());
-	}
-	
->>>>>>> b4d8ef8bda4a9f4fecdb4b48306e9314c0b6da10
 }
 
 int UserInterface::showMainMenuAndGetCommand() const
@@ -232,8 +214,6 @@ void UserInterface::showValidateAccountOnScreen(int validCode, const string& acc
 	}
 }
 
-
-
 //static 
 const string UserInterface::cardFilename(const string& cn) {
 	//read in card name & produce cashcard filename
@@ -255,13 +235,6 @@ double UserInterface::readInDepositAmount() const {
 	//ask for the amount to deposit
 	outputLine("AMOUNT TO DEPOSIT: \234");
 	return (readInPositiveAmount());
-}
-
-//question 3a 
-int UserInterface::readInNumberOfTransactions() const
-{
-	outputLine("NUMBER OF TRANSACTIONS TO VIEW: ");
-	return (readInPositiveNumber());
 }
 
 Date UserInterface::readInValidDate(const Date& cd) const 
@@ -359,31 +332,6 @@ void UserInterface::showStatementOnScreen(const string& statement) const {
 	cout << statement;
 	outputLine("----------------------------------------\n");
 }
-void UserInterface::showMiniStatementOnScreen(bool isEmpty, double total, string str) const
-{
-	outputHeader("PREPARING MINI STATEMENT...");
-	Time currentTime;
-	Date currentDate;
-	ostringstream os;
-	
-
-	if (!isEmpty)
-	{
-		os << "RECENT TRANSACTIONS REQUESTED AT ";
-		os << currentTime.currentTime();
-		os << " ON ";
-		os << currentDate.currentDate();
-		os << str;
-		os << "\n      TOTAL: \234 " << fixed << setprecision(2) << total;
-		outputLine(os.str());
-	}
-	else
-	{
-		showNoTransactions();
-	}
-
-
-}
 
 //---------------------------------------------------------------------------
 // private support member functions
@@ -422,21 +370,6 @@ double UserInterface::readInPositiveAmount() const
 	}
 
 	return amount;
-}
-
-//question 3a 
-int UserInterface::readInPositiveNumber() const
-{
-	int number;
-	cin >> number;
-
-	while (number <= 0)
-	{
-		outputLine("NUMBER SHOULD BE POSITIVE, TRY AGAIN: ");
-		cin >> number; 
-	}
-
-	return number;
 }
 
 void UserInterface::outputHeader(const string& header) const

@@ -116,33 +116,6 @@ void TransactionList::deleteGivenTransaction(const Transaction& tr) {
 int TransactionList::size() const {
     return (listOfTransactions_.length());
 }
-//question 3a
-TransactionList TransactionList::getMostRecentTransactions(int number) {
-	TransactionList tempList(*this);
-	TransactionList rettr;
-	while (tempList.size() > 0 && number != 0)
-	{
-		rettr.addNewTransaction(tempList.newestTransaction());
-		tempList.deleteFirstTransaction();
-		number--;
-	}
-	return rettr;
-}
-double TransactionList::getTotalTransactions()
-{
-	double total = 0;
-	TransactionList tempList(*this);
-
-
-	int count = tempList.size();
-	while (tempList.size() > 0)
-	{
-		total = total + tempList.newestTransaction().getAmount();
-		tempList.deleteFirstTransaction();
-	}
-
-	return total;
-}
 
 const string TransactionList::toFormattedString() const {
 //return transaction list as a (formatted) string
