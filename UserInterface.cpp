@@ -25,6 +25,40 @@ void UserInterface::endProgram() const
 	cin.get(ch);
 	cin.get(ch);
 }
+void UserInterface::showTransactionsUpToDateOnScreen(bool isEmpty, const Date& date, int size, const string& transactionString) const
+{
+	if (isEmpty == false && transactionString != "")
+	{
+		outputLine(transactionString);
+	}
+	else
+	{
+		ostringstream os;
+		os << "NO TRANSACTION IN BANK ACCOUNT UP TO DATE " << setfill('0');
+		os << setw(2) << date.getDay() << "/";
+		os << setw(2) << date.getMonth() << "/";
+		os << setw(4) << date.getYear();
+		outputLine(os.str());
+	}
+}
+
+void UserInterface::showFundsAvailableOnScreen(bool isAccountEmpty, const string& statement, double totalMaxBorrowable) const
+{
+	if (isAccountEmpty) 
+	{
+		outputLine("NO ACCOUNT ACCESSIBLE WITH THIS CARD");
+	}
+	else
+	{
+		ostringstream os;
+		os << statement;
+		os << "\n" << setfill(' ');
+		os << "\n      TOTOAL AVAILABLE FUNDS: \234" << totalMaxBorrowable;
+		outputLine(os.str());
+	}
+	
+}
+
 int UserInterface::showMainMenuAndGetCommand() const
 {
 	system("cls");
@@ -94,6 +128,48 @@ const string UserInterface::readInAccountToBeProcessed() const {
 	return askForInput("SELECT ACCOUNT TO MANAGE");
 }
 
+bool UserInterface::readInConfirmDeletion() const
+{
+	string input = askForInput("CONFIRM DELETION (N/Y)?");
+	while (input != "n" && input != "N" && input != "y" && input != "Y")
+	{
+		outputLine("WRONG INPUT");
+		input = askForInput("CONFIRM DELETION (N/Y)?");
+	}
+
+	// if the user wants to delete the transactions
+	if (input == "y" || input == "Y")
+	{
+		return true;
+	}
+	// otherwise return false
+	return false;
+}
+
+void UserInterface::showDeletionOfTransactionsUpToDateOnScreen(int size, const Date& date, bool deletionConfirmed) const
+{
+	// output list of transaction deleted if they have been deleted and up to which date
+	if (deletionConfirmed)
+	{
+		ostringstream os;
+		os << "THE " << size << " TRANSACTIONS IN BANK ACCOUNT UP TO DATE " << setfill('0');
+		os << setw(2) << date.getDay() << "/";
+		os << setw(2) << date.getMonth() << "/";
+		os << setw(4) << date.getYear() << " HAVE BEEN DELETED";
+		outputLine(os.str());
+	}
+}
+
+void UserInterface::searchTransactions(int size, const Date & date) const
+{
+
+}
+
+void UserInterface::showNoTransactions() const
+{
+	outputLine("NO TRANSACTIONS IN BANK ACCOUNT");
+}
+
 void UserInterface::showValidateAccountOnScreen(int validCode, const string& accNum) const
 {
 	switch (validCode)
@@ -116,6 +192,8 @@ void UserInterface::showValidateAccountOnScreen(int validCode, const string& acc
 	} break;
 	}
 }
+
+
 
 //static 
 const string UserInterface::cardFilename(const string& cn) {
@@ -140,6 +218,41 @@ double UserInterface::readInDepositAmount() const {
 	return (readInPositiveAmount());
 }
 
+//question 3a 
+int UserInterface::readInNumberOfTransactions() const
+{
+	outputLine("NUMBER OF TRANSACTIONS TO VIEW: ");
+	return (readInPositiveNumber());
+}
+
+Date UserInterface::readInValidDate(const Date& cd) const 
+{
+	
+	outputLine("ENTER A VALID DATE");
+	int day, month, year;
+	outputLine("DAY: ");
+	cin >> day;
+	outputLine("MONTH: ");
+	cin >> month;
+	outputLine("YEAR: ");
+	cin >> year;
+
+	Date aDate(day, month, year);
+	
+	//// if the date is not valid
+	while (!aDate.isValid(cd))
+	{
+		outputLine("INVALID DATE");
+		outputLine("DAY: ");
+		cin >> day;
+		outputLine("MONTH: ");
+		cin >> month;
+		outputLine("YEAR: ");
+		cin >> year;
+		aDate.setDate(day, month, year);
+	}
+	return aDate;
+}
 
 //output functions
 
@@ -175,6 +288,31 @@ void UserInterface::showStatementOnScreen(const string& statement) const {
 	outputHeader("PREPARING STATEMENT...");
 	cout << statement;
 	outputLine("----------------------------------------\n");
+}
+void UserInterface::showMiniStatementOnScreen(bool isEmpty, double total, string str) const
+{
+	outputHeader("PREPARING MINI STATEMENT...");
+	Time currentTime;
+	Date currentDate;
+	ostringstream os;
+	
+
+	if (!isEmpty)
+	{
+		os << "RECENT TRANSACTIONS REQUESTED AT ";
+		os << currentTime.currentTime();
+		os << " ON ";
+		os << currentDate.currentDate();
+		os << str;
+		os << "\n      TOTAL: \234 " << fixed << setprecision(2) << total;
+		outputLine(os.str());
+	}
+	else
+	{
+		showNoTransactions();
+	}
+
+
 }
 
 //---------------------------------------------------------------------------
@@ -214,6 +352,21 @@ double UserInterface::readInPositiveAmount() const
 	}
 
 	return amount;
+}
+
+//question 3a 
+int UserInterface::readInPositiveNumber() const
+{
+	int number;
+	cin >> number;
+
+	while (number <= 0)
+	{
+		outputLine("NUMBER SHOULD BE POSITIVE, TRY AGAIN: ");
+		cin >> number; 
+	}
+
+	return number;
 }
 
 void UserInterface::outputHeader(const string& header) const
