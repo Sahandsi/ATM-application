@@ -44,7 +44,7 @@ private:
     void m_acct2_withdrawFromBankAccount();
     void m_acct3_depositToBankAccount();
     void m_acct4_produceStatement() const;
-	void m_acct6_showMiniStatement(); //question 3b 
+	void m_acct6_showMiniStatement(); //question 3a
 	void m_acct7_searchForTransactions();
 	void m_acct8_clearTransactionsUpToDate();
 

@@ -171,9 +171,11 @@ void ATM::executeAccountCommand() {
 					break;
 				case 4:	m_acct4_produceStatement();
 					break;
+
 					//question 3a 
 				case 6: m_acct6_showMiniStatement();
 					break;
+
 				case 7: m_acct7_searchForTransactions();
 					break;
 				case 8: m_acct8_clearTransactionsUpToDate();
@@ -219,6 +221,7 @@ void ATM::m_acct4_produceStatement() const {
 	assert(p_theActiveAccount_ != nullptr);
 	theUI_.showStatementOnScreen(p_theActiveAccount_->prepareFormattedStatement());
 }
+
 //---option 6 question 3a
 void ATM::m_acct6_showMiniStatement() {
 	assert(p_theActiveAccount_ != nullptr);
@@ -231,6 +234,7 @@ void ATM::m_acct6_showMiniStatement() {
 	string mad = p_theActiveAccount_->prepareFormattedMiniAccountDetails();
 	theUI_.showMiniStatementOnScreen(isEmpty, total, mad + str);
 }
+
 //option 7
 void ATM::m_acct7_searchForTransactions() {
 	assert(p_theActiveAccount_ != nullptr);
@@ -256,7 +260,6 @@ void ATM::m_acct7_searchForTransactions() {
 
 	}
 }
-
 
 //---option 8
 void ATM::m_acct8_clearTransactionsUpToDate() {
