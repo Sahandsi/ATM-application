@@ -16,7 +16,7 @@
 //____constructors & destructors
 
 Card::Card()
-	: cardNumber_("null") // example change
+	: cardNumber_("null")
 {}
 Card::Card(const string& cardNum, const List<string>& accList)
 	: cardNumber_(cardNum),

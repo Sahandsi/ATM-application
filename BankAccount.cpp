@@ -94,6 +94,27 @@ void BankAccount::recordWithdrawal(double amountToWithdraw) {
 	updateBalance(-amountToWithdraw);			//decrease balance_
 }
 
+void BankAccount::produceTransactionsForAmount(double amount, string& transactionString, int& size) const
+{
+	TransactionList trl = transactions_.getTransactionsForAmount(amount);
+	size = trl.size();
+	transactionString = trl.toFormattedString();
+}
+
+void BankAccount::produceTransactionsForTitle(const string& title, string& transString, int& size) const
+{
+	TransactionList trl = transactions_.getTransactionsForTitle(title);
+	size = trl.size();
+	transString = trl.toFormattedString();
+}
+
+void BankAccount::produceTransactionsForDate(const Date & date, string & transString, int & size) const
+{
+	TransactionList trl = transactions_.getTransactionsForDate(date);
+	size = trl.size();
+	transString = trl.toFormattedString();
+}
+
 const string BankAccount::prepareFormattedStatement() const {
 	ostringstream os;
 	//account details
@@ -115,8 +136,6 @@ const string BankAccount::prepareFormattedMiniAccountDetails() const
 	os << "\n      ----------------------------------------";
 	return os.str();
 }
-
-
 void BankAccount::readInBankAccountFromFile(const string& fileName) {
 	ifstream fromFile;
 	fromFile.open(fileName.c_str(), ios::in); 	//open file in read mode
@@ -125,6 +144,14 @@ void BankAccount::readInBankAccountFromFile(const string& fileName) {
 	else
 		fromFile >> (*this);  	//read  all info from bank account file
 	fromFile.close();			//close file: optional here
+}
+
+pair<string, double> BankAccount::produceNMostRecentTransactions(int number)
+{
+	TransactionList trl = transactions_.getMostRecentTransactions(number);
+	double total = trl.getTotalTransactions();
+	string str = trl.toFormattedString();
+	return (make_pair(str, total));
 }
 
 void BankAccount::storeBankAccountInFile(const string& fileName) const {
@@ -136,14 +163,6 @@ void BankAccount::storeBankAccountInFile(const string& fileName) const {
 		toFile << (*this);	//store all info to bank account file
 	toFile.close();			//close file: optional here
 }
-pair<string, double> BankAccount::produceNMostRecentTransactions(int number)
-{
-	TransactionList trl = transactions_.getMostRecentTransactions(number);
-	double total = trl.getTotalTransactions();
-	string str = trl.toFormattedString();
-	return (make_pair(str, total));
-}
-
 ostream& BankAccount::putDataInStream(ostream& os) const {
 	//put (unformatted) BankAccount details in stream
 	putAccountDetailsInStream(os);			//put bank account core information in stream

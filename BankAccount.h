@@ -39,11 +39,13 @@ public:
 	double maxBorrowable() const;
 	bool canWithdraw(double amount) const;
     void recordWithdrawal(double amount);
-
+	void produceTransactionsForAmount(double amount, string& transString, int& size) const;
+	void produceTransactionsForTitle(const string& title, string& transString, int& size) const;
+	void produceTransactionsForDate(const Date& date, string& transString, int& size) const;
 	void readInBankAccountFromFile(const string& fileName);
 	void storeBankAccountInFile(const string& fileName) const;
-
 	pair<string, double> produceNMostRecentTransactions(int number);
+	const string prepareFormattedMiniAccountDetails() const;
 	//functions to put data into and get data from streams
 	ostream& putDataInStream(ostream& os) const;
 	ostream& putAccountDetailsInStream(ostream& os) const;
@@ -51,7 +53,6 @@ public:
 	istream& getAccountDataFromStream(istream& is);
 
 	const string prepareFormattedAccountDetails() const;
-	const string prepareFormattedMiniAccountDetails() const;
 	const string prepareFormattedTransactionList() const;
 	
 	static const string getAccountType(const string& filename);

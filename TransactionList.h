@@ -22,12 +22,13 @@ public:
     const Transaction newestTransaction() const;
     const  TransactionList olderTransactions() const;
 	TransactionList getTransactionsUpToDate(const Date& date) const;
+	TransactionList getTransactionsForAmount(double amount) const;
+	TransactionList getTransactionsForTitle(const string& searchString) const;
+	TransactionList getTransactionsForDate(const Date& date) const;
     void   deleteFirstTransaction();
 	void   deleteTransactionsUpToDate(const Date& date);
     void   deleteGivenTransaction(const Transaction&);
 	int    size() const;
-	TransactionList getMostRecentTransactions(int number);
-	double getTotalTransactions();
 
 	const string toFormattedString() const;		//return transactionlist as a (formatted) string
 	ostream& putDataInStream(ostream& os) const;	//send TransactionList info into an output stream
