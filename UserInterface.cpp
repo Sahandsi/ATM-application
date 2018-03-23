@@ -225,7 +225,12 @@ const string UserInterface::accountFilename(const string& an) {
 }
 
 //input functions
-
+//option 6 
+int UserInterface::readInNumberOfTransactions() const
+{
+	outputLine("NUMBER OF TRANSACTIONS TO VIEW: ");
+	return (readInPositiveNumber());
+}
 double UserInterface::readInWithdrawalAmount() const {
 	//ask for the amount to withdraw
 	outputLine("AMOUNT TO WITHDRAW: \234");
@@ -357,7 +362,29 @@ void UserInterface::showErrorInvalidCommand() const
 {
 	outputLine("INVALID COMMAND CHOICE, TRY AGAIN");
 }
+void UserInterface::showMiniStatementOnScreen(bool isEmpty, double total, string str) const
+{
+	outputHeader("PREPARING MINI STATEMENT...");
+	Time currentTime;
+	Date currentDate;
+	ostringstream os;
+	
 
+	if (!isEmpty)
+	{
+		os << "RECENT TRANSACTIONS REQUESTED AT ";
+		os << currentTime.currentTime();
+		os << " ON ";
+		os << currentDate.currentDate();
+		os << str;
+		os << "\n      TOTAL: \234 " << fixed << setprecision(2) << total;
+		outputLine(os.str());
+	}
+	else
+	{
+		showNoTransactions();
+	}
+}
 double UserInterface::readInPositiveAmount() const
 {
 	double amount;
@@ -371,7 +398,20 @@ double UserInterface::readInPositiveAmount() const
 
 	return amount;
 }
+//option 6 
+int UserInterface::readInPositiveNumber() const
+{
+	int number;
+	cin >> number;
 
+	while (number <= 0)
+	{
+		outputLine("NUMBER SHOULD BE POSITIVE, TRY AGAIN: ");
+		cin >> number; 
+	}
+
+	return number;
+}
 void UserInterface::outputHeader(const string& header) const
 {
 	// calculate lengths so we can centre the header
