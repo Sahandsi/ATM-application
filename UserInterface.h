@@ -13,6 +13,7 @@
 
 #include "constants.h"
 #include "Date.h"
+#include "Time.h"
 
 
 #include <iomanip>
@@ -56,16 +57,19 @@ public:
 
 	double readInWithdrawalAmount() const;
 	double readInDepositAmount() const;
+	int readInNumberOfTransactions() const;
 
 	void showProduceBalanceOnScreen(double bal) const;
 	void showDepositOnScreen(bool auth, double deposit) const;
 	void showWithdrawalOnScreen(bool auth, double withdrawal) const;
 	void showStatementOnScreen(const string&) const;
+	void showMiniStatementOnScreen(bool, double, string)const;
 
 private:
 	//support functions
 	int readInCommand() const;
 	double readInPositiveAmount() const;
+	int readInPositiveNumber() const;
 	void outputHeader(const string&) const;
 	string askForInput(const string&) const;
 	void outputLine(const string&) const;
