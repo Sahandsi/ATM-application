@@ -46,8 +46,9 @@ private:
     void m_acct2_withdrawFromBankAccount();
     void m_acct3_depositToBankAccount();
     void m_acct4_produceStatement() const;
-	void m_acct7_searchForTransactions() const;
-	void m_acct8_clearTransactionsUpToDate();
+    void m_acct6_showMiniStatement() const;
+    void m_acct7_searchForTransactions() const;
+    void m_acct8_clearTransactionsUpToDate();
 
     //support file handling functions and creation of dynamic objects
     bool canOpenFile(const string&) const;
