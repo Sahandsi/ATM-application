@@ -123,6 +123,18 @@ const string BankAccount::prepareFormattedStatement() const {
 	os << prepareFormattedTransactionList();
 	return os.str();
 }
+const string BankAccount::prepareFormattedMiniAccountDetails() const
+{
+	assert(getAccountType(accountNumber_[0]) != "UNKNOWN");
+	ostringstream os;
+
+	os << "\n      ACCOUNT NUMBER:  " << accountNumber_;
+	os << fixed << setprecision(2) << setfill(' ');
+	os << "\n      BALANCE:         \234" << setw(10) << balance_;
+	os << "\n      AVAILABLE FUNDS: \234" << setw(10) << maxBorrowable();
+	os << "\n      ----------------------------------------";
+	return os.str();
+}
 void BankAccount::readInBankAccountFromFile(const string& fileName) {
 	ifstream fromFile;
 	fromFile.open(fileName.c_str(), ios::in); 	//open file in read mode
@@ -132,7 +144,13 @@ void BankAccount::readInBankAccountFromFile(const string& fileName) {
 		fromFile >> (*this);  	//read  all info from bank account file
 	fromFile.close();			//close file: optional here
 }
-
+pair<string, double> BankAccount::produceNMostRecentTransactions(int number)
+{
+	TransactionList trl = transactions_.getMostRecentTransactions(number);
+	double total = trl.getTotalTransactions();
+	string str = trl.toFormattedString();
+	return (make_pair(str, total));
+}
 void BankAccount::storeBankAccountInFile(const string& fileName) const {
 	ofstream toFile;
 	toFile.open(fileName.c_str(), ios::out);	//open copy file in write mode
