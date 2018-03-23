@@ -123,7 +123,6 @@ const string BankAccount::prepareFormattedStatement() const {
 	os << prepareFormattedTransactionList();
 	return os.str();
 }
-
 const string BankAccount::prepareFormattedMiniAccountDetails() const
 {
 	assert(getAccountType(accountNumber_[0]) != "UNKNOWN");
