@@ -143,6 +143,8 @@ void ATM::executeAccountCommand() {
 					break;
 				case 4:	m_acct4_produceStatement();
 					break;
+				case 6: m_acct6_showMiniStatement();
+					break;
 				case 7: m_acct7_searchForTransactions();
 					break;
 				case 8: m_acct8_clearTransactionsUpToDate();
@@ -249,7 +251,18 @@ void ATM::m_acct4_produceStatement() const {
 	assert(p_theActiveAccount_ != nullptr);
 	theUI_.showStatementOnScreen(p_theActiveAccount_->prepareFormattedStatement());
 }
-
+//---option 6
+void ATM::m_acct6_showMiniStatement() {
+	assert(p_theActiveAccount_ != nullptr);
+	//check if there are any transactions 
+	bool isEmpty = p_theActiveAccount_->isEmptyTransactionList();
+	//get user input 
+	int number = theUI_.readInNumberOfTransactions();
+	string str = p_theActiveAccount_->produceNMostRecentTransactions(number).first;
+	double total = p_theActiveAccount_->produceNMostRecentTransactions(number).second;
+	string mad = p_theActiveAccount_->prepareFormattedMiniAccountDetails();
+	theUI_.showMiniStatementOnScreen(isEmpty, total, mad + str);
+}
 //---option 7
 void ATM::m_acct7_searchForTransactions() const
 {
