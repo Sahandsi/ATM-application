@@ -324,14 +324,23 @@ void ATM::m_acct4_produceStatement() const {
 //---option 6
 void ATM::m_acct6_showMiniStatement() const {
 	assert(p_theActiveAccount_ != nullptr);
+
+	int numTransactions;
+	string transactionString = "";
+	double totalTransactions;
+
 	//check if there are any transactions 
 	bool isEmpty = p_theActiveAccount_->isEmptyTransactionList();
-	//get user input 
-	int number = theUI_.readInNumberOfTransactions();
-	string str = p_theActiveAccount_->produceNMostRecentTransactions(number).first;
-	double total = p_theActiveAccount_->produceNMostRecentTransactions(number).second;
+
+	//get user input if transactionlist isn't empty
+	if (!isEmpty)
+	{
+		numTransactions = theUI_.readInNumberOfTransactions();
+		p_theActiveAccount_->produceNMostRecentTransactions(numTransactions, transactionString, totalTransactions);
+	}
+
 	string mad = p_theActiveAccount_->prepareFormattedMiniAccountDetails();
-	theUI_.showMiniStatementOnScreen(isEmpty, total, mad + str);
+	theUI_.showMiniStatementOnScreen(isEmpty, totalTransactions, mad + transactionString);
 }
 //---option 7
 void ATM::m_acct7_searchForTransactions() const

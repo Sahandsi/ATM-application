@@ -426,17 +426,14 @@ void UserInterface::showErrorInvalidCommand() const
 void UserInterface::showMiniStatementOnScreen(bool isEmpty, double total, string str) const
 {
 	outputHeader("PREPARING MINI STATEMENT...");
-	Time currentTime;
-	Date currentDate;
 	ostringstream os;
 	
-
 	if (!isEmpty)
 	{
 		os << "RECENT TRANSACTIONS REQUESTED AT ";
-		os << currentTime.currentTime();
+		os << Time::currentTime().toFormattedString();
 		os << " ON ";
-		os << currentDate.currentDate();
+		os << Date::currentDate().toFormattedString();
 		os << str;
 		os << "\n      TOTAL: \234 " << fixed << setprecision(2) << total;
 		outputLine(os.str());

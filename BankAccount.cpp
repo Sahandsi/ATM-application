@@ -177,12 +177,12 @@ void BankAccount::readInBankAccountFromFile(const string& fileName) {
 		fromFile >> (*this);  	//read  all info from bank account file
 	fromFile.close();			//close file: optional here
 }
-pair<string, double> BankAccount::produceNMostRecentTransactions(int number)
+TransactionList BankAccount::produceNMostRecentTransactions(int number, string& transString, double& totalTrans) const
 {
 	TransactionList trl = transactions_.getMostRecentTransactions(number);
-	double total = trl.getTotalTransactions();
-	string str = trl.toFormattedString();
-	return (make_pair(str, total));
+	totalTrans = trl.getTotalTransactions();
+	transString = trl.toFormattedString();
+	return trl;
 }
 void BankAccount::storeBankAccountInFile(const string& fileName) const {
 	ofstream toFile;

@@ -119,9 +119,10 @@ int TransactionList::size() const {
     return (listOfTransactions_.length());
 }
 //option 6
-TransactionList TransactionList::getMostRecentTransactions(int number) {
+TransactionList TransactionList::getMostRecentTransactions(int number) const {
 	TransactionList tempList(*this);
 	TransactionList rettr;
+	// get the latest transactions for a certain number
 	while (tempList.size() > 0 && number != 0)
 	{
 		rettr.addNewTransaction(tempList.newestTransaction());
@@ -136,8 +137,6 @@ double TransactionList::getTotalTransactions()
 	double total = 0;
 	TransactionList tempList(*this);
 
-
-	int count = tempList.size();
 	while (tempList.size() > 0)
 	{
 		total = total + tempList.newestTransaction().getAmount();
