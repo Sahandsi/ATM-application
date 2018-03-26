@@ -22,7 +22,6 @@ public:
     const Transaction newestTransaction() const;
     const  TransactionList olderTransactions() const;
     TransactionList getTransactionsUpToDate(const Date& date) const;
-    TransactionList getTransactionsUpToDate(const Date& date) const;
     TransactionList getTransactionsForAmount(double amount) const;
     TransactionList getTransactionsForTitle(const string& searchString) const;
     TransactionList getTransactionsForDate(const Date& date) const;

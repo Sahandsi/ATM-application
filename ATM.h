@@ -36,11 +36,14 @@ private:
 	int  validateAccount(const string&) const;
 	void executeAccountCommand();
 	void searchTransactions() const;
+	void recordTransfer(double transferAmount, BankAccount * transferAccout);
 	void m_trl1_showTransactionsForAmount() const;
 	void m_trl1_showTransactionsForTitle() const;
 	void m_trl1_showTransactionsForDate() const;
+	void attemptTransfer(BankAccount * transferAccount);
 	//card menu commands
 	void m_card1_manageIndividualAccount();
+	void m_card1_showFundsAvailableOnAllAccounts()
 	//account menu commands
     void m_acct1_produceBalance() const;
     void m_acct2_withdrawFromBankAccount();
@@ -48,7 +51,8 @@ private:
     void m_acct4_produceStatement() const;
     void m_acct6_showMiniStatement() const;
     void m_acct7_searchForTransactions() const;
-    void m_acct8_clearTransactionsUpToDate();
+	void m_acct8_clearTransactionsUpToDate();
+	void m_acct9_transferCashToAnotherAccount();
 
     //support file handling functions and creation of dynamic objects
     bool canOpenFile(const string&) const;
@@ -58,8 +62,8 @@ private:
     void activateCard(const string&);
 	void releaseCard();
 
-	BankAccount* activateAccount(const string&);
-	BankAccount* releaseAccount(BankAccount*, string);
+	BankAccount* activateAccount(const string&) const;
+	BankAccount* releaseAccount(BankAccount*, string) const;
 };
 
 #endif

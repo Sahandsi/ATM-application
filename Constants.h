@@ -22,6 +22,7 @@ const int VALID_ACCOUNT(0);
 const int UNKNOWN_ACCOUNT(1);
 const int UNACCESSIBLE_ACCOUNT(2);
 const int INVALID_ACCOUNT_TYPE(3);
+const int SAME_ACCOUNT(4); // ADDED FOR TRANSFER VALIDATION
 
 //account type
 const char BANKACCOUNT_TYPE('0');

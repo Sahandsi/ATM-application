@@ -38,6 +38,10 @@ public:
 	void recordDeletionOfTransactionUpToDate(const Date& date);
 	double maxBorrowable() const;
 	bool canWithdraw(double amount) const;
+	bool canTransferIn(double amount) const;
+	bool canTransferOut(double amount) const;
+	void recordTransferOut(double amount, const string & transferAccountNum);
+	void recordTransferIn(double amount, const string & activeAccountNum);
     void recordWithdrawal(double amount);
 	void produceTransactionsForAmount(double amount, string& transString, int& size) const;
 	void produceTransactionsForTitle(const string& title, string& transString, int& size) const;

@@ -100,21 +100,36 @@ int ATM::validateCard(const string& filename) const {
 int ATM::validateAccount(const string& filename) const {
 	//check that the account is valid 
 	//NOTE: MORE WORK NEEDED here in case of transfer
+
+	// TEMPORARY p_BA ACTIVATING A BANK ACCOUNT WITH THIS FILENAME
+	BankAccount* p_tempBankAccount = activateAccount(filename);
+
+	int accountState;
 	if (!canOpenFile(filename))
 		//account does not exist
-		return UNKNOWN_ACCOUNT;
+		accountState = UNKNOWN_ACCOUNT;
 	else
 		//account type not recognised
 		if (BankAccount::getAccountType(filename) == "UNKNOWN")
-		//if (getAccountTypeCode(filename) == UNKNOWN_ACCOUNT_TYPE)
-			return INVALID_ACCOUNT_TYPE;
+			//if (getAccountTypeCode(filename) == UNKNOWN_ACCOUNT_TYPE)
+			accountState = INVALID_ACCOUNT_TYPE;
 		else
 			//unaccessible account (exists but not listed on card)
 			if (!p_theCard_->onCard(filename))
-				return UNACCESSIBLE_ACCOUNT;
+				accountState = UNACCESSIBLE_ACCOUNT;
 			else
-				//account valid (exists and accessible)
-				return VALID_ACCOUNT;
+				// if both of the account numbers are the same. same account is being used to transfer money
+				if (p_theActiveAccount_ != nullptr && (p_theActiveAccount_->getAccountNumber() == p_tempBankAccount->getAccountNumber()))
+					accountState = SAME_ACCOUNT;
+				else
+					//account valid (exists and accessible)
+					accountState = VALID_ACCOUNT;
+
+	// release the memory allocated to the temporary bank account
+	if (p_tempBankAccount != nullptr)
+		releaseAccount(p_tempBankAccount, filename);
+
+	return accountState;
 }
 void ATM::executeAccountCommand() {
 	assert(p_theActiveAccount_ == nullptr);
@@ -149,6 +164,8 @@ void ATM::executeAccountCommand() {
 					break;
 				case 8: m_acct8_clearTransactionsUpToDate();
 					break;
+				case 9: m_acct9_transferCashToAnotherAccount();
+					break;
 				default:theUI_.showErrorInvalidCommand();
 			}
 			theUI_.wait();
@@ -180,6 +197,17 @@ void ATM::searchTransactions() const
 			break;
 	}
 
+}
+
+void ATM::recordTransfer(double transferAmount, BankAccount* transferAccout)
+{
+	// transfer account
+	string tAN = transferAccout->getAccountNumber();
+	p_theActiveAccount_->recordTransferOut(transferAmount, tAN);
+
+	//active account
+	string aAN = p_theActiveAccount_->getAccountNumber();
+	transferAccout->recordTransferIn(transferAmount, aAN);
 }
 
 void ATM::m_trl1_showTransactionsForAmount() const
@@ -221,6 +249,21 @@ void ATM::m_trl1_showTransactionsForDate() const
 		theUI_.showMatchingTransactionsOnScreen(date, size, transString);
 	
 }
+
+void ATM::attemptTransfer(BankAccount* transferAccount)
+{
+	double transferAmount = theUI_.readInTransferAmount();
+	bool trOutOK = p_theActiveAccount_->canTransferOut(transferAmount);
+	bool trInOk = transferAccount->canTransferIn(transferAmount);
+
+	// if transfer can take place
+	if (trOutOK && trInOk)
+	{
+		recordTransfer(transferAmount, transferAccount);
+	}
+
+	theUI_.showTransferOnScreen(trOutOK, trInOk, transferAmount);
+}
 //------ menu options
 //---option 1
 void ATM::m_acct1_produceBalance() const {
@@ -252,7 +295,7 @@ void ATM::m_acct4_produceStatement() const {
 	theUI_.showStatementOnScreen(p_theActiveAccount_->prepareFormattedStatement());
 }
 //---option 6
-void ATM::m_acct6_showMiniStatement() {
+void ATM::m_acct6_showMiniStatement() const {
 	assert(p_theActiveAccount_ != nullptr);
 	//check if there are any transactions 
 	bool isEmpty = p_theActiveAccount_->isEmptyTransactionList();
@@ -315,6 +358,34 @@ void ATM::m_acct8_clearTransactionsUpToDate() {
 		}
 	}
 }
+
+//---option 9
+void ATM::m_acct9_transferCashToAnotherAccount()
+{
+	// set it to null to avoid dangling pointer.
+	BankAccount* transferAccount(nullptr);
+
+	string cardDetails = p_theCard_->toFormattedString();
+	theUI_.showCardOnScreen(cardDetails);
+
+	// get the card details and show them on the screen
+	string acctNum = theUI_.readInAccountToBeProcessed();
+	string accountFileName = theUI_.accountFilename(acctNum);
+
+	int validAccountCode = validateAccount(accountFileName);
+
+	theUI_.showValidateAccountOnScreen(validAccountCode, acctNum);
+
+	// if the account filename is valid (it exists)
+	if (validAccountCode == 0)
+	{
+		// activate the transfer account
+		transferAccount = activateAccount(accountFileName);
+		attemptTransfer(transferAccount);
+		releaseAccount(transferAccount, accountFileName);
+	}
+
+}
 //------private file functions
 
 bool ATM::canOpenFile(const string& filename) const {
@@ -359,7 +430,7 @@ char ATM::getAccountTypeCode(const string& filename) {
 	return filename[13]; //14th char from the filename ("data/account_101.txt")
 }
 
-BankAccount* ATM::activateAccount(const string& filename) {
+BankAccount* ATM::activateAccount(const string& filename) const {
 	//Pre-condition: type of the account is valid
 	assert(BankAccount::getAccountType(filename) != "UNKNOWN");
 	//effectively create the active bank account instance of the appropriate class
@@ -377,7 +448,7 @@ BankAccount* ATM::activateAccount(const string& filename) {
 	return p_BA;
 }
 
-BankAccount* ATM::releaseAccount(BankAccount* p_BA, string filename) {
+BankAccount* ATM::releaseAccount(BankAccount* p_BA, string filename) const {
 	//store (possibly updated) data back in file
 	assert(p_BA != nullptr);
 	p_BA->storeBankAccountInFile(filename);

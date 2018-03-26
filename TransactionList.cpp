@@ -26,7 +26,8 @@ const TransactionList TransactionList::olderTransactions() const {
     trlist.deleteFirstTransaction();
     return trlist;
 }
-TransactionList TransactionList::getTransactionsUpToDate(const Date& date) const
+
+TransactionList TransactionList::getTransactionsUpToDate(const Date & date) const
 {
 	TransactionList copytr(*this);
 	TransactionList rettr;
@@ -42,6 +43,7 @@ TransactionList TransactionList::getTransactionsUpToDate(const Date& date) const
 	}
 	return rettr;
 }
+
 TransactionList TransactionList::getTransactionsForAmount(double amount) const
 {
 	TransactionList copytr(*this);

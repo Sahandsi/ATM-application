@@ -81,10 +81,43 @@ double BankAccount::maxBorrowable() const {
 	//return borrowable amount
 	return balance_;
 }
+
 bool BankAccount::canWithdraw(double amountToWithdraw) const {
 	//check if enough money in account
 	return amountToWithdraw <= maxBorrowable();
 }
+bool BankAccount::canTransferIn(double amount) const
+{
+	// will be differnt for other bank accounts such as a child account
+	// this method will be virtual for question 5 as well as the method below
+	return true;
+}
+
+bool BankAccount::canTransferOut(double amount) const
+{
+	// check if the balance remaining after transfer will be greater than zero
+	return ((balance_ - amount) >= 0.0);
+}
+
+void BankAccount::recordTransferOut(double amount, const string& transferAccountNum)
+{
+	// active account. adding new transaction and updating the balance.
+	string strTransaction = ("transfer_to_" + transferAccountNum);
+	Transaction inTransaction(strTransaction, amount);
+	transactions_.addNewTransaction(inTransaction);
+	updateBalance(-amount); // decrease balance from active account
+}
+
+void BankAccount::recordTransferIn(double amount, const string& activeAccountNum)
+{
+	// transfer account. adding new transaction and updating the balance.
+	string strTransaction = ("transfer_from_" + activeAccountNum);
+	Transaction inTransaction(strTransaction, amount);
+	transactions_.addNewTransaction(inTransaction);
+	updateBalance(amount); // increase balance on transfer account
+}
+
+
 
 void BankAccount::recordWithdrawal(double amountToWithdraw) {
 	//create a withdrawal transaction

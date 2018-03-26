@@ -70,6 +70,34 @@ void UserInterface::showMatchingTransactionsOnScreen(const Date& date, int size,
 	outputLine(os.str());
 }
 
+void UserInterface::showTransferOnScreen(bool trOutOk, bool trInOk, double transferAmount) const
+{
+	ostringstream os;
+	// transaction can take place
+	if (trOutOk && trInOk)
+	{
+		os << "THE TRANSFER HAS BEEN SUCCESSFUL: ";
+		os << "\x9C" << transferAmount;
+		outputLine(os.str());
+	}
+
+	// active account cannot transfer money to other account
+	if (!trOutOk)
+	{
+		os << "INSUFFICENT FUNDS TO TRANSFER ";
+		os << "\x9c" << transferAmount;
+		outputLine(os.str());
+	}
+
+	// transfer amount cannot recieve money
+	if (!trInOk)
+	{
+		os << "TRANSFER ACCOUNT CANNOT RECIEVE ";
+		os << "\x9c" << transferAmount;
+		outputLine(os.str());
+	}
+}
+
 int UserInterface::showMainMenuAndGetCommand() const
 {
 	system("cls");
@@ -126,6 +154,11 @@ void UserInterface::showValidateCardOnScreen(int validCode, const string& cardNu
 		outputLine("ERROR: CARD " + cardNumber + " DOES NOT LINK TO ANY ACCOUNTS");
 	} break;
 	}
+}
+
+void UserInterface::showCardOnScreen(const string& cardDetails) const
+{
+	outputLine(cardDetails);
 }
 
 int UserInterface::showCardMenuAndGetCommand(const string& cardNumber) const
@@ -197,6 +230,7 @@ void UserInterface::showValidateAccountOnScreen(int validCode, const string& acc
 	{
 	case VALID_ACCOUNT:
 	{
+		outputLine("THE ACCOUNT " + accNum + " IS NOW OPEN!");
 		// Account exists and is accessible with that card (and not already open: TO BE IMPLEMENTED)
 	} break;
 	case INVALID_ACCOUNT_TYPE:
@@ -210,6 +244,10 @@ void UserInterface::showValidateAccountOnScreen(int validCode, const string& acc
 	case UNACCESSIBLE_ACCOUNT:
 	{
 		outputLine("ERROR: ACCOUNT " + accNum + " IS NOT ACCESSIBLE WITH THIS CARD!");
+	} break;
+	case SAME_ACCOUNT:
+	{
+		outputLine("ERROR: ACCOUNT " + accNum + " IS ALREADY OPEN");
 	} break;
 	}
 }
@@ -274,6 +312,12 @@ Date UserInterface::readInValidDate(const Date& cd) const
 int UserInterface::readInSearchCommand() const
 {
 	return readInCommand();
+}
+
+const double UserInterface::readInTransferAmount() const
+{
+	outputLine("PLEASE ENTER THE TRANSFER AMOUNT");
+	return readInPositiveAmount();
 }
 
 string UserInterface::readInTitle() const
@@ -382,7 +426,7 @@ void UserInterface::showMiniStatementOnScreen(bool isEmpty, double total, string
 	}
 	else
 	{
-		showNoTransactions();
+		showNoTransactionsOnScreen();
 	}
 }
 double UserInterface::readInPositiveAmount() const
