@@ -34,6 +34,7 @@ public:
 	void wait() const;
 	void endProgram() const;
 	void showTransactionsUpToDateOnScreen(bool isEmpty, const Date& date, int size, const string& transactionString) const;
+	void showFundsAvailableOnScreen(bool isAccountEmpty, const string & statement, double totalMaxBorrowable) const;
 	void showMatchingTransactionsOnScreen(double amount, int size, const string& transString) const;
 	void showMatchingTransactionsOnScreen(const string& title, int size, const string& transString) const;
 	void showMatchingTransactionsOnScreen(const Date& date, int size, const string& transString) const;

@@ -43,7 +43,7 @@ private:
 	void attemptTransfer(BankAccount * transferAccount);
 	//card menu commands
 	void m_card1_manageIndividualAccount();
-	void m_card1_showFundsAvailableOnAllAccounts()
+	void m_card2_showFundsAvailableOnAllAccounts() const;
 	//account menu commands
     void m_acct1_produceBalance() const;
     void m_acct2_withdrawFromBankAccount();
