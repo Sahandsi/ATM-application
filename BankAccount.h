@@ -25,7 +25,7 @@ public:
 	BankAccount();
     ~BankAccount();
 
-	BankAccount(const string & acctType, const string & acctNum, const TransactionList & transList, const Date & cd, const double balance);
+	BankAccount(const string & acctNum, const TransactionList & transList, const Date & cd, const double balance);
 
 	//getter (assessor) functions
     const string getAccountNumber() const;
@@ -35,13 +35,14 @@ public:
     bool isEmptyTransactionList() const;
 	void produceTransactionsUpToDate(const Date& d, int& size, string& transactionString) const;
 	//other operations
+	
 	const string prepareFormattedStatement() const;
     void recordDeposit(double amount);
 	void recordDeletionOfTransactionUpToDate(const Date& date);
 	double maxBorrowable() const;
 	bool canWithdraw(double amount) const;
 	bool canTransferIn(double amount) const;
-	bool canTransferOut(double amount) const;
+	virtual const bool canTransferOut(double amount) const;
 	void recordTransferOut(double amount, const string & transferAccountNum);
 	void recordTransferIn(double amount, const string & activeAccountNum);
     void recordWithdrawal(double amount);
@@ -53,11 +54,11 @@ public:
 	TransactionList produceNMostRecentTransactions(int number, string& transString, double& totalTrans) const;
 	//functions to put data into and get data from streams
 	ostream& putDataInStream(ostream& os) const;
-	ostream& putAccountDetailsInStream(ostream& os) const;
+	virtual ostream& putAccountDetailsInStream(ostream& os) const;
 	istream& getDataFromStream(istream& is);
-	istream& getAccountDataFromStream(istream& is);
+	virtual istream& getAccountDataFromStream(istream& is);
 
-	const string prepareFormattedAccountDetails() const;
+	virtual const string prepareFormattedAccountDetails() const;
 	const string prepareFormattedMiniAccountDetails() const;
 	const string prepareFormattedTransactionList() const;
 	
@@ -70,7 +71,6 @@ private:
     Date   creationDate_;
 	double balance_;
     TransactionList transactions_;
-	string accountType_; // FOR INHERITANCE
  
 	//support functions
 	void updateBalance(double amount);

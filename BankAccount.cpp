@@ -22,12 +22,11 @@ BankAccount::BankAccount()
 BankAccount::~BankAccount()
 {}
 
-BankAccount::BankAccount(const string& acctType, const string& acctNum, const TransactionList& transList, const Date& cd, const double balance)
-	: accountType_(acctType),
-	accountNumber_(acctNum),
-	transactions_(transList),
-	creationDate_(cd),
-	balance_(balance)
+BankAccount::BankAccount(const string& acctNum, const TransactionList& transList, const Date& cd, const double balance)
+	:	accountNumber_(acctNum),
+		transactions_(transList),
+		creationDate_(cd),
+		balance_(balance)
 {} 
 
 //____other public member functions
@@ -100,7 +99,7 @@ bool BankAccount::canTransferIn(double amount) const
 	return true;
 }
 
-bool BankAccount::canTransferOut(double amount) const
+const bool BankAccount::canTransferOut(double amount) const
 {
 	// check if the balance remaining after transfer will be greater than zero
 	return ((balance_ - amount) >= 0.0);
