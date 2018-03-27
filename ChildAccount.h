@@ -19,7 +19,7 @@ public:
 
 	// virtual functions
 	virtual ostream& putAccountDetailsInStream(ostream& os) const;
-	/*virtual istream& getAccountDataFromStream(istream& is);*/
+	virtual istream& getAccountDataFromStream(istream& is);
 
 	virtual const string prepareFormattedAccountDetails() const;
 	virtual bool canTransferIn(double amount) const;

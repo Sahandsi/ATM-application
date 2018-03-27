@@ -35,6 +35,14 @@ ostream& ChildAccount::putAccountDetailsInStream(ostream & os) const
 	return os;
 }
 
+istream & ChildAccount::getAccountDataFromStream(istream& is)
+{
+	SavingsAccount::getAccountDataFromStream(is);
+	is >> maximumPaidIn_;
+	is >> minimumPaidIn_;
+	return is;
+}
+
 const string ChildAccount::prepareFormattedAccountDetails() const
 {
 	assert(getAccountType(getAccountNumber()[0]) != "UNKNOWN");
