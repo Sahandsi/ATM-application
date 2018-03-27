@@ -35,7 +35,7 @@ ostream& ChildAccount::putAccountDetailsInStream(ostream & os) const
 	return os;
 }
 
-istream & ChildAccount::getAccountDataFromStream(istream& is)
+istream& ChildAccount::getAccountDataFromStream(istream& is)
 {
 	SavingsAccount::getAccountDataFromStream(is);
 	is >> maximumPaidIn_;
