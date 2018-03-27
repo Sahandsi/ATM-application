@@ -25,6 +25,8 @@ public:
 	BankAccount();
     ~BankAccount();
 
+	BankAccount(const string & acctType, const string & acctNum, const TransactionList & transList, const Date & cd, const double balance);
+
 	//getter (assessor) functions
     const string getAccountNumber() const;
     const Date getCreationDate() const;
@@ -68,6 +70,7 @@ private:
     Date   creationDate_;
 	double balance_;
     TransactionList transactions_;
+	string accountType_; // FOR INHERITANCE
  
 	//support functions
 	void updateBalance(double amount);

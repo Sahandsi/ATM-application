@@ -22,6 +22,13 @@ BankAccount::BankAccount()
 BankAccount::~BankAccount()
 {}
 
+BankAccount::BankAccount(const string& acctType, const string& acctNum, const TransactionList& transList, const Date& cd, const double balance)
+	: accountType_(acctType),
+	accountNumber_(acctNum),
+	transactions_(transList),
+	creationDate_(cd),
+	balance_(balance)
+{} 
 
 //____other public member functions
 
