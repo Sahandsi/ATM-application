@@ -36,4 +36,11 @@ ostream& SavingsAccount::putAccountDetailsInStream(ostream& os) const {
 	return os;
 }
 
+istream& SavingsAccount::getAccountDataFromStream(istream& is)
+{
+	// store the results in the bank account data members and in savings account data members
+	BankAccount::getAccountDataFromStream(is);
+	is >> minimumBalance_;
+	return is;
+}
 
