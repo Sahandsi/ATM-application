@@ -45,11 +45,7 @@ const string CurrentAccount::prepareFormattedAccountDetails() const
 	assert(getAccountType(getAccountNumber()[0]) != "UNKNOWN");
 	ostringstream os;
 
-	os << "\n      ACCOUNT TYPE:    " << getAccountType(getAccountNumber()[0]) << " ACCOUNT";
-	os << "\n      ACCOUNT NUMBER:  " << getAccountNumber();
-	os << "\n      CREATION DATE:   " << getCreationDate().toFormattedString();
-	os << fixed << setprecision(2)	<< setfill(' ');
-	os << "\n      BALANCE:         \234" << setw(10) << getBalance();;
+	os << BankAccount::prepareFormattedAccountDetails();
 	os << "\n      OVERDRAFT LIMIT:         \234" << setw(10) << overdraftLimit_;
 	os << "\n      ----------------------------------------";
 	return os.str();

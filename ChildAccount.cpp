@@ -48,12 +48,7 @@ const string ChildAccount::prepareFormattedAccountDetails() const
 	assert(getAccountType(getAccountNumber()[0]) != "UNKNOWN");
 	ostringstream os;
 
-	os << "\n      ACCOUNT TYPE:    " << getAccountType(getAccountNumber()[0]) << " ACCOUNT";
-	os << "\n      ACCOUNT NUMBER:  " << getAccountNumber();
-	os << "\n      CREATION DATE:   " << getCreationDate().toFormattedString();
-	os << fixed << setprecision(2) << setfill(' ');
-	os << "\n      BALANCE:         \234" << setw(10) << getBalance();
-	os << "\n      MINIMUM BALANCE:         \234" << setw(10) << getMinimumBalance();
+	os << SavingsAccount::prepareFormattedAccountDetails();
 	os << "\n      MAXIMUM PAID IN:         \234" << setw(10) << maximumPaidIn_;
 	os << "\n      MINIMUM PAID IN:         \234" << setw(10) << minimumPaidIn_;
 	os << "\n      ----------------------------------------";

@@ -29,9 +29,7 @@ const bool SavingsAccount::canTransferOut(double amount) const
 
 ostream& SavingsAccount::putAccountDetailsInStream(ostream& os) const {
 	//put (unformatted) BankAccount details in stream
-	os << getAccountNumber() << "\n";			//put account number
-	os << getCreationDate() << "\n";			//put creation date
-	os << getBalance() << "\n";					//put balance
+	BankAccount::putAccountDetailsInStream(os);
 	os << minimumBalance_ << "\n";				//put minimum balance (accessible in this class)
 	return os;
 }
@@ -42,5 +40,14 @@ istream& SavingsAccount::getAccountDataFromStream(istream& is)
 	BankAccount::getAccountDataFromStream(is);
 	is >> minimumBalance_;
 	return is;
+}
+
+const string SavingsAccount::prepareFormattedAccountDetails() const
+{
+	ostringstream os;
+	os << BankAccount::prepareFormattedAccountDetails();
+	os << "MINIMUM BALANCE " << "\234" << setw(10) << minimumBalance_;
+	os << "\n      ----------------------------------------";
+	return os.str();
 }
 

@@ -12,7 +12,7 @@ public:
 	// pure virtual functions
 	virtual ostream& putAccountDetailsInStream(ostream& os) const = 0;
 	virtual istream& getAccountDataFromStream(istream& is) = 0;
-
+	virtual const string prepareFormattedAccountDetails() const;
 	// accessors
 	double getMinimumBalance() const;
 
