@@ -41,7 +41,7 @@ public:
 	void recordDeletionOfTransactionUpToDate(const Date& date);
 	double maxBorrowable() const;
 	bool canWithdraw(double amount) const;
-	bool canTransferIn(double amount) const;
+	virtual bool canTransferIn(double amount) const;
 	virtual const bool canTransferOut(double amount) const;
 	void recordTransferOut(double amount, const string & transferAccountNum);
 	void recordTransferIn(double amount, const string & activeAccountNum);

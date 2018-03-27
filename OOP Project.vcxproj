@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="ChildAccount.cpp" />
     <ClCompile Include="CurrentAccount.cpp" />
     <ClCompile Include="SavingsAccount.cpp" />
     <ClCompile Include="__Task1c_Main.cpp" />
@@ -35,6 +36,7 @@
     <ClInclude Include="BankAccount.h" />
     <ClInclude Include="Card.h" />
     <ClInclude Include="ATM.h" />
+    <ClInclude Include="ChildAccount.h" />
     <ClInclude Include="Constants.h" />
     <ClInclude Include="CurrentAcount.h" />
     <ClInclude Include="Date.h" />
