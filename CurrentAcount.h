@@ -24,9 +24,6 @@ private:
 	double overdraftLimit_;
 };
 
-ostream& operator<<(ostream&, const BankAccount&);	//output operator
-istream& operator>>(istream&, BankAccount&);	    //input operator
-
 
 
 
