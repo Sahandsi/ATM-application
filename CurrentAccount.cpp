@@ -29,14 +29,13 @@ ostream& CurrentAccount::putAccountDetailsInStream(ostream& os) const {
 }
 
 
-//istream& CurrentAccount::getAccountDataFromStream(istream& is) {
-//	//get BankAccount details from stream
-//	is >> getAccountNumber();					//get account number
-//	is >> getCreationDate();					//get creation date
-//	is >> getBalance();							//get balance
-//	is >> overdraftLimit_;						//get overdraft limit
-//	return is;
-//}
+istream& CurrentAccount::getAccountDataFromStream(istream& is) {
+	//get BankAccount details from stream by calling its version
+	BankAccount::getDataFromStream(is);
+	// store overdraft limit from the stream
+	is >> overdraftLimit_;
+	return is;
+}
 
 
 
