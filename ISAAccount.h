@@ -6,6 +6,8 @@
 class ISAAccount : public SavingsAccount
 {
 public:
+
+	ISAAccount();
 	// constructors and destructors
 	ISAAccount(const string & acctNum, const TransactionList & transList,
 		const Date & cd, const double balance, const double minimumBalance,

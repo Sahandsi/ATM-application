@@ -5,7 +5,7 @@
 class CurrentAccount : public BankAccount
 {
 public:
-	CurrentAccount(const double overdraftLimit);
+	CurrentAccount();
 	CurrentAccount(const string & acctNum, const TransactionList & transList, const Date & cd, const double balance, const double overdraftLimit);
 	~CurrentAccount();
 

@@ -37,7 +37,7 @@ public:
 	//other operations
 	
 	const string prepareFormattedStatement() const;
-    virtual void recordDeposit(double amount);
+	virtual void recordDeposit(double amount);
 	void recordDeletionOfTransactionUpToDate(const Date& date);
 	double maxBorrowable() const;
 	bool canWithdraw(double amount) const;
@@ -58,7 +58,7 @@ public:
 	istream& getDataFromStream(istream& is);
 	virtual istream& getAccountDataFromStream(istream& is);
 
-	virtual const string prepareFormattedAccountDetails() const;
+	virtual const string prepareFormattedAccountDetails() const = 0;
 	const string prepareFormattedMiniAccountDetails() const;
 	const string prepareFormattedTransactionList() const;
 	

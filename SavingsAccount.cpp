@@ -2,8 +2,8 @@
 
 
 // implicit constructor call to BankAccount
-SavingsAccount::SavingsAccount(const double minimumBalance)
-	: minimumBalance_(minimumBalance)
+SavingsAccount::SavingsAccount()
+	: minimumBalance_(0)
 {}
 
 // explicit constructor call to BankAccount

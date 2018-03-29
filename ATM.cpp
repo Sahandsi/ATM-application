@@ -474,9 +474,28 @@ BankAccount* ATM::activateAccount(const string& filename) const {
 	BankAccount* p_BA(nullptr);
 	switch (getAccountTypeCode(filename))
 	{
-		case BANKACCOUNT_TYPE:	//NOT NEEDED WITH ABSTRACT CLASSES
-			p_BA = new BankAccount;    //points to a BankAccount object
+		//case BANKACCOUNT_TYPE:	//NOT NEEDED WITH ABSTRACT CLASSES
+		//	p_BA = new BankAccount;    //points to a BankAccount object
+		//	break;
+
+		case CURRENTACCOUNT_TYPE:
+		{
+			cout << "CURRENT ACCOUNT";
+			p_BA = new CurrentAccount;
 			break;
+		}
+		case CHILDACCOUNT_TYPE:
+		{
+			cout << "CURRENT ACCOUNT";
+			p_BA = new ChildAccount;
+			break;
+		}
+		case ISAACCOUNT_TYPE:
+		{
+			cout << "ISA ACCOUNT";
+			p_BA = new ISAAccount;
+			break;
+		}
 	}
 	assert(p_BA != nullptr); //check that the dynamic allocation has succeeded
 	p_BA->readInBankAccountFromFile(filename); //read account details from file

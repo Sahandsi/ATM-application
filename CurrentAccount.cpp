@@ -1,7 +1,7 @@
 #include "CurrentAcount.h"
 
 // implicitly call the bank account constructor
-CurrentAccount::CurrentAccount(const double overdraftLimit) : overdraftLimit_(overdraftLimit)
+CurrentAccount::CurrentAccount() : overdraftLimit_(0.0)
 {}
 
 //explicitly call the bank account constructor
@@ -10,6 +10,7 @@ CurrentAccount::CurrentAccount(const string& acctNum,
 		const Date& cd, const double balance, const double overdraftLimit) 
 		: BankAccount(acctNum, transList, cd, balance), overdraftLimit_(overdraftLimit)
 {}
+
 
 CurrentAccount::~CurrentAccount()  
 {}

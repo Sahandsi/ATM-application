@@ -1,8 +1,10 @@
 #include "ChildAccount.h"
 
-ChildAccount::ChildAccount(const double minimumBalance) 
-	: SavingsAccount(minimumBalance), minimumPaidIn_(0), maximumPaidIn_(0)
+// default constructor
+ChildAccount::ChildAccount() 
+	: SavingsAccount(), minimumPaidIn_(0), maximumPaidIn_(0)
 {}
+
 ChildAccount::ChildAccount(const string & acctNum, const TransactionList & transList, const Date & cd, const double balance, const double minimumBalance, const double minimumPaidIn, const double maximumPaidIn) 
 	: SavingsAccount(acctNum, transList, cd, balance, minimumBalance), 
 	minimumPaidIn_(minimumPaidIn), maximumPaidIn_(maximumPaidIn)

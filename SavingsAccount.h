@@ -5,7 +5,7 @@
 class SavingsAccount : public BankAccount
 {
 public:
-	SavingsAccount(const double minimumBalance);
+	SavingsAccount();
 	SavingsAccount(const string & acctNum, const TransactionList & transList, const Date & cd, const double balance, const double minimumBalance);
 	~SavingsAccount();
 

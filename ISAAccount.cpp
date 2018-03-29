@@ -1,5 +1,18 @@
 #include "ISAAccount.h"
 
+
+
+
+// default constructor
+ISAAccount::ISAAccount() : 
+	SavingsAccount(), 
+	maximumYearlyDeposit_(0), 
+	currentYearlyDeposit_(0),
+	endDepositPeriod_(Date())
+{
+
+}
+
 ISAAccount::ISAAccount(const string & acctNum, const TransactionList & transList, const Date & cd, const double balance, const double minimumBalance, const double maxYearlyDeposit, const double currentYearlyDeposit, const Date & endDepositPeriod)
 	: SavingsAccount(acctNum, transList, cd, balance, minimumBalance),
 	maximumYearlyDeposit_(maxYearlyDeposit),

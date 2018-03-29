@@ -17,6 +17,9 @@
 #include <fstream>
 #include <string>
 #include <cassert>
+#include "CurrentAcount.h"
+#include "ChildAccount.h"
+#include "ISAAccount.h"
 using namespace std;
 
 class ATM {

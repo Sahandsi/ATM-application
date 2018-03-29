@@ -7,7 +7,7 @@ class ChildAccount : public SavingsAccount
 {
 public:
 	
-	ChildAccount(const double minimumBalance);
+	ChildAccount();
 	ChildAccount(const string & acctNum, const TransactionList & transList, 
 				const Date & cd, const double balance, const double minimumBalance, 
 				const double minimumPaidIn, const double maximumPaidIn);
