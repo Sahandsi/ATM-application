@@ -47,8 +47,8 @@ ostream & ISAAccount::putAccountDetailsInStream(ostream & os) const
 {
 	// add all the account details to the stream
 	SavingsAccount::putAccountDetailsInStream(os);
-	os << currentYearlyDeposit_ << "\n";
 	os << maximumYearlyDeposit_ << "\n";
+	os << currentYearlyDeposit_ << "\n";
 	os << endDepositPeriod_ << "\n";
 	return os;
 }
@@ -56,8 +56,8 @@ ostream & ISAAccount::putAccountDetailsInStream(ostream & os) const
 istream & ISAAccount::getAccountDataFromStream(istream & is)
 {
 	SavingsAccount::getAccountDataFromStream(is);
-	is >> currentYearlyDeposit_;
 	is >> maximumYearlyDeposit_;
+	is >> currentYearlyDeposit_;
 	is >> endDepositPeriod_;
 	return is;
 }
@@ -97,6 +97,16 @@ void ISAAccount::recordDeposit(double amount)
 		// update currently yearly deposit
 		updateCurrentYearlyDeposit(amount);
 	}
+}
+
+bool ISAAccount::canWithdraw(double amount) const
+{
+	return SavingsAccount::canWithdraw(amount);
+}
+
+double ISAAccount::maxBorrowable() const
+{
+	return SavingsAccount::maxBorrowable();
 }
 
 

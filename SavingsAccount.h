@@ -19,6 +19,8 @@ public:
 	
 	// virtual functions
 	virtual const bool canTransferOut(double amount) const;
+	virtual bool canWithdraw(double amount) const;
+	virtual double maxBorrowable() const;
 
 private:
 	double minimumBalance_;

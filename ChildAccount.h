@@ -23,6 +23,7 @@ public:
 
 	virtual const string prepareFormattedAccountDetails() const;
 	virtual bool canTransferIn(double amount) const;
+	/*virtual double maxBorrowable() const;*/
 
 private:
 	double maximumPaidIn_, minimumPaidIn_;

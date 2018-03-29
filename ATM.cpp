@@ -313,8 +313,13 @@ void ATM::m_acct2_withdrawFromBankAccount() {
 void ATM::m_acct3_depositToBankAccount() {
 	assert(p_theActiveAccount_ != nullptr);
 	double amountToDeposit(theUI_.readInDepositAmount());
-	p_theActiveAccount_->recordDeposit(amountToDeposit);
-	theUI_.showDepositOnScreen(true, amountToDeposit);
+	// for ISAAccount 
+	bool istrAuth = p_theActiveAccount_->canTransferIn(amountToDeposit);
+	if (istrAuth)
+	{
+		p_theActiveAccount_->recordDeposit(amountToDeposit);
+	}
+	theUI_.showDepositOnScreen(istrAuth, amountToDeposit);
 }
 //---option 4
 void ATM::m_acct4_produceStatement() const {
@@ -325,9 +330,9 @@ void ATM::m_acct4_produceStatement() const {
 void ATM::m_acct6_showMiniStatement() const {
 	assert(p_theActiveAccount_ != nullptr);
 
-	int numTransactions;
+	int numTransactions = 0;
 	string transactionString = "";
-	double totalTransactions;
+	double totalTransactions = 0.0;
 
 	//check if there are any transactions 
 	bool isEmpty = p_theActiveAccount_->isEmptyTransactionList();
@@ -486,7 +491,7 @@ BankAccount* ATM::activateAccount(const string& filename) const {
 		}
 		case CHILDACCOUNT_TYPE:
 		{
-			cout << "CURRENT ACCOUNT";
+			cout << "CHILD ACCOUNT";
 			p_BA = new ChildAccount;
 			break;
 		}

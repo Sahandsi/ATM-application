@@ -39,8 +39,8 @@ public:
 	const string prepareFormattedStatement() const;
 	virtual void recordDeposit(double amount);
 	void recordDeletionOfTransactionUpToDate(const Date& date);
-	double maxBorrowable() const;
-	bool canWithdraw(double amount) const;
+	virtual double maxBorrowable() const;
+	virtual bool canWithdraw(double amount) const;
 	virtual bool canTransferIn(double amount) const;
 	virtual const bool canTransferOut(double amount) const;
 	void recordTransferOut(double amount, const string & transferAccountNum);

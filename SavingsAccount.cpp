@@ -27,6 +27,16 @@ const bool SavingsAccount::canTransferOut(double amount) const
 	return ((amount >= 0) && ((getBalance() - amount) >= minimumBalance_));
 }
 
+bool SavingsAccount::canWithdraw(double amount) const
+{
+	return (getBalance() - amount) >= minimumBalance_;
+}
+
+double SavingsAccount::maxBorrowable() const
+{
+	return getBalance() - minimumBalance_;
+}
+
 ostream& SavingsAccount::putAccountDetailsInStream(ostream& os) const {
 	//put (unformatted) BankAccount details in stream
 	BankAccount::putAccountDetailsInStream(os);
@@ -46,7 +56,7 @@ const string SavingsAccount::prepareFormattedAccountDetails() const
 {
 	ostringstream os;
 	os << BankAccount::prepareFormattedAccountDetails();
-	os << "MINIMUM BALANCE " << "\234" << setw(10) << minimumBalance_;
+	os << "\n      MINIMUM BALANCE:  " << "\234" << setw(10) << minimumBalance_;
 	os << "\n      ----------------------------------------";
 	return os.str();
 }

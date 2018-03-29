@@ -64,6 +64,20 @@ bool ChildAccount::canTransferIn(double amount) const
 	return ((amount >= 0) && ((amount >= minimumPaidIn_) && (amount <= maximumPaidIn_)));
 }
 
+//double ChildAccount::maxBorrowable() const
+//{
+//	//// if less money is available than depositing
+//	//double maxBorrowableFromSaving = SavingsAccount::maxBorrowable();
+//	//if (maxBorrowableFromSaving < minimumPaidIn_)
+//	//{
+//	//	return 0.0;
+//	//}
+//	//else if(maxBorrowableFromSaving > maximumPaidIn_)
+//	//{
+//	//	return SavingsAccount::maxBorrowable() - maximumPaidIn_;
+//	//}
+//}
+
 
 
 

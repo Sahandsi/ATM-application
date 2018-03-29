@@ -1,7 +1,7 @@
 #include "CurrentAcount.h"
 
 // implicitly call the bank account constructor
-CurrentAccount::CurrentAccount() : overdraftLimit_(0.0)
+CurrentAccount::CurrentAccount() : BankAccount(), overdraftLimit_(0.0)
 {}
 
 //explicitly call the bank account constructor
@@ -22,9 +22,7 @@ double CurrentAccount::getOverdraftLimit() const
 
 ostream& CurrentAccount::putAccountDetailsInStream(ostream& os) const {
 	//put (unformatted) BankAccount details in stream
-	os << getAccountNumber() << "\n";			//put account number
-	os << getCreationDate() << "\n";			//put creation date
-	os << getBalance() << "\n";					//put balance
+	BankAccount::putAccountDetailsInStream(os);
 	os << overdraftLimit_ << "\n";				//put overdraft limit (accessible in this class)
 	return os;
 }
@@ -32,10 +30,16 @@ ostream& CurrentAccount::putAccountDetailsInStream(ostream& os) const {
 
 istream& CurrentAccount::getAccountDataFromStream(istream& is) {
 	//get BankAccount details from stream by calling its version
-	BankAccount::getDataFromStream(is);
+	BankAccount::getAccountDataFromStream(is);
 	// store overdraft limit from the stream
 	is >> overdraftLimit_;
 	return is;
+}
+
+double CurrentAccount::maxBorrowable() const
+{
+	// returns what is available to borrow
+	return getBalance() + overdraftLimit_;
 }
 
 

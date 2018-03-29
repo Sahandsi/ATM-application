@@ -30,6 +30,8 @@ public:
 	virtual bool canTransferIn(double amount) const;
 	virtual void recordTransferIn(double amount, const string & activeAccountNum); // to update yearly deposit
 	virtual void recordDeposit(double amount);
+	virtual bool canWithdraw(double amount) const;
+	virtual double maxBorrowable() const;
 
 private:
 	double maximumYearlyDeposit_, currentYearlyDeposit_;
