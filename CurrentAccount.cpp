@@ -47,8 +47,6 @@ bool CurrentAccount::canWithdraw(double amount) const
 	return amount <= maxBorrowable();
 }
 
-
-
 const string CurrentAccount::prepareFormattedAccountDetails() const
 {
 	// get the account type based on the first character of the account number
