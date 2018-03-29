@@ -42,6 +42,11 @@ double CurrentAccount::maxBorrowable() const
 	return getBalance() + overdraftLimit_;
 }
 
+bool CurrentAccount::canWithdraw(double amount) const
+{
+	return amount <= maxBorrowable();
+}
+
 
 
 const string CurrentAccount::prepareFormattedAccountDetails() const

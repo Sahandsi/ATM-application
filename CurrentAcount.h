@@ -17,6 +17,7 @@ public:
 	virtual ostream& putAccountDetailsInStream(ostream& os) const;
 	virtual istream& getAccountDataFromStream(istream& is);
 	virtual double maxBorrowable() const;
+	virtual bool canWithdraw(double amount) const;
 	virtual const string prepareFormattedAccountDetails() const;
 	virtual const bool canTransferOut(double amount) const;
 
