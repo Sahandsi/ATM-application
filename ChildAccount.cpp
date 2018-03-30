@@ -86,10 +86,14 @@ double ChildAccount::maxBorrowable() const
 	}
 }
 
-//bool ChildAccount::canWithdraw(double amount) const
-//{
-//	return amount <= maxBorrowable();
-//}
+bool ChildAccount::canWithdraw(double amount) const
+{
+	// check if amount is valid and less than max borrowable 
+	// and balance remains greater than minimum balance
+	return ((amount >= 0.0) && ((amount >= minimumPaidIn_) 
+		&& (amount <= maximumPaidIn_)) && (amount <= maxBorrowable()) 
+		&& (SavingsAccount::canWithdraw(amount)));
+}
 
 
 
