@@ -16,7 +16,6 @@ public:
 	// accessors
 	double getMinimumBalance() const;
 
-	
 	// virtual functions
 	virtual const bool canTransferOut(double amount) const;
 	virtual bool canWithdraw(double amount) const;

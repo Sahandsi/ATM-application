@@ -101,6 +101,7 @@ void ISAAccount::recordDeposit(double amount)
 
 bool ISAAccount::canWithdraw(double amount) const
 {
+	// only need to check the savings account version
 	return SavingsAccount::canWithdraw(amount);
 }
 

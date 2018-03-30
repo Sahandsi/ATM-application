@@ -62,6 +62,6 @@ const string CurrentAccount::prepareFormattedAccountDetails() const
 const bool CurrentAccount::canTransferOut(double amount) const
 {
 	// checking if transfer results in balance lower than the overdraft limit
-	return ((amount >= 0) && ((getBalance() - amount) >= overdraftLimit_));
+	return ((amount >= 0.0) && ((getBalance() - amount) >= -overdraftLimit_));
 }
 

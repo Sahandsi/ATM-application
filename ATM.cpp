@@ -485,19 +485,16 @@ BankAccount* ATM::activateAccount(const string& filename) const {
 
 		case CURRENTACCOUNT_TYPE:
 		{
-			cout << "CURRENT ACCOUNT";
 			p_BA = new CurrentAccount;
 			break;
 		}
 		case CHILDACCOUNT_TYPE:
 		{
-			cout << "CHILD ACCOUNT";
 			p_BA = new ChildAccount;
 			break;
 		}
 		case ISAACCOUNT_TYPE:
 		{
-			cout << "ISA ACCOUNT";
 			p_BA = new ISAAccount;
 			break;
 		}
