@@ -48,9 +48,15 @@ bool BankAccount::isEmptyTransactionList() const {
 }
 void BankAccount::produceTransactionsUpToDate(const Date& date, int& size, string& transactionString) const
 {
-	TransactionList trl = transactions_.getTransactionsUpToDate(date);
-	transactionString = trl.toFormattedString();
-	size = trl.size();
+	// ORIGINAL
+	//TransactionList trl = transactions_.getTransactionsUpToDate(date);
+	//transactionString = trl.toFormattedString();
+	//size = trl.size();
+
+	// RECURSIVE
+	TransactionList trlist = transactions_.getTransactionsUpToDate(date, transactions_);
+	transactionString = trlist.toFormattedString();
+	size = trlist.size();
 }
 //static
 const string BankAccount::getAccountType(const string& filename) {

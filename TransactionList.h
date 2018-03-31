@@ -22,7 +22,8 @@ public:
     void   addNewTransaction(const Transaction&);
     const Transaction newestTransaction() const;
     const  TransactionList olderTransactions() const;
-    TransactionList getTransactionsUpToDate(const Date& date) const;
+    TransactionList getTransactionsUpToDate(const Date& date) const; 
+	TransactionList getTransactionsUpToDate(const Date& date, TransactionList trlistToTraverse) const; // recursive version
     TransactionList getTransactionsForAmount(double amount) const;
     TransactionList getTransactionsForTitle(const string& searchString) const;
     TransactionList getTransactionsForDate(const Date& date) const;
@@ -35,6 +36,8 @@ public:
 	const string toFormattedString() const;		//return transactionlist as a (formatted) string
 	ostream& putDataInStream(ostream& os) const;	//send TransactionList info into an output stream
 	istream& getDataFromStream(istream& is);	//receive TransactionList info from an input stream
+
+	TransactionList & operator+=(TransactionList trList);
 
 private:
     list<Transaction> listOfTransactions_;	//list of transactions

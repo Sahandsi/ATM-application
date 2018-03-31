@@ -36,6 +36,7 @@ const TransactionList TransactionList::olderTransactions() const {
 
 TransactionList TransactionList::getTransactionsUpToDate(const Date & date) const
 {
+	// non recursive
 	TransactionList copytr(*this);
 	TransactionList rettr;
 
@@ -51,19 +52,50 @@ TransactionList TransactionList::getTransactionsUpToDate(const Date & date) cons
 	return rettr;
 }
 
+TransactionList TransactionList::getTransactionsUpToDate(const Date& date, TransactionList trlistToTraverse) const
+{
+	// recursive version
+	TransactionList rettr;
+	if (trlistToTraverse.size() != 0)
+	{
+		// if the newest transactions date is <= date from parameter
+		if (trlistToTraverse.newestTransaction().getDate() <= date)
+		{
+			rettr.addNewTransaction(trlistToTraverse.newestTransaction()); // add to the return list
+		}
+		// send the tail of the traversed list to this function again
+		rettr += getTransactionsUpToDate(date, trlistToTraverse.olderTransactions());
+	}
+	return rettr;
+
+}
+
 void TransactionList::deleteTransactionsUpToDate(const Date& date)
 {
 	// this-> refers to the actual transaction list not the copy
 	// *this is used to create a copy of transactions list to loop over (copytr)
 
-	TransactionList copytr(*this); // grab a copy to loop over
-	while (copytr.size() > 0)
+	//ORIGINAL CODE
+	//TransactionList copytr(getTransactionsUpToDate(date)); // grab a copy to loop over
+	//while (copytr.size() > 0)
+	//{
+	//	this->deleteGivenTransaction(copytr.newestTransaction());
+	//	copytr.deleteGivenTransaction(copytr.newestTransaction()); // move along the copy list
+	//}
+
+	// RECURSIVE CODE
+	TransactionList upToDateTransactions = getTransactionsUpToDate(date);
+	if (upToDateTransactions.size() == 0)
 	{
-		if (copytr.newestTransaction().getDate() <= date)
-		{
-			this->deleteGivenTransaction(copytr.newestTransaction());
-		}
-		copytr.deleteFirstTransaction(); // move along the copy list
+		return;
+	}
+	else
+	{
+		// delete this transaction for the handle
+		this->deleteGivenTransaction(upToDateTransactions.newestTransaction());
+		// delete it for the upToDateTransactions list as well
+		upToDateTransactions.deleteGivenTransaction(upToDateTransactions.newestTransaction());
+		this->deleteTransactionsUpToDate(date);
 	}
 }
 
@@ -207,6 +239,19 @@ istream& TransactionList::getDataFromStream(istream& is) {
 		is >> aTransaction;	//read in next transaction
 	}
 	return is;
+}
+
+TransactionList& TransactionList::operator+=(TransactionList trList)
+{
+	// used for recursion
+	while(trList.size() != 0)
+	{
+		// loops through the trlist and adds them to this (return transactionList)
+		this->addNewTransaction(trList.newestTransaction());
+		trList.deleteFirstTransaction();
+	}
+
+	return *this;
 }
 
 
