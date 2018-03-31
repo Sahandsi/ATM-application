@@ -10,7 +10,7 @@ public:
 	~SavingsAccount();
 
 	// pure virtual functions
-	virtual ostream& putAccountDetailsInStream(ostream& os);
+	virtual ostream& putAccountDetailsInStream(ostream& os) const;
 	virtual istream& getAccountDataFromStream(istream& is) = 0;
 	virtual const string prepareFormattedAccountDetails() const = 0;
 	// accessors
