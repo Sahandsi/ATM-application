@@ -38,7 +38,6 @@ public:
 
 private:
     list<Transaction> listOfTransactions_;	//list of transactions
-	list<Transaction>::iterator it; // iterate through the transactions list
 };
 
 //---------------------------------------------------------------------------

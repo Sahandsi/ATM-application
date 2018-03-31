@@ -16,13 +16,20 @@
 //____other public member functions
 
 void TransactionList::addNewTransaction(const Transaction& tr) {
-    listOfTransactions_.addInFront(tr);
+
+	//listOfTransactions_.addInFront(tr);
+	// insert at beginning of the list
+    listOfTransactions_.insert(listOfTransactions_.begin(), tr);
+	
 }
 const Transaction TransactionList::newestTransaction() const {
-    return (listOfTransactions_.first());
+    //return (listOfTransactions_.first());
+	// returns the latest transaction (head)
+	return listOfTransactions_.front();
 }
 const TransactionList TransactionList::olderTransactions() const {
 	TransactionList trlist(*this);
+	// returns the older transactions (tail)
     trlist.deleteFirstTransaction();
     return trlist;
 }
@@ -43,6 +50,23 @@ TransactionList TransactionList::getTransactionsUpToDate(const Date & date) cons
 	}
 	return rettr;
 }
+
+void TransactionList::deleteTransactionsUpToDate(const Date& date)
+{
+	// this-> refers to the actual transaction list not the copy
+	// *this is used to create a copy of transactions list to loop over (copytr)
+
+	TransactionList copytr(*this); // grab a copy to loop over
+	while (copytr.size() > 0)
+	{
+		if (copytr.newestTransaction().getDate() <= date)
+		{
+			this->deleteGivenTransaction(copytr.newestTransaction());
+		}
+		copytr.deleteFirstTransaction(); // move along the copy list
+	}
+}
+
 
 TransactionList TransactionList::getTransactionsForAmount(double amount) const
 {
@@ -95,28 +119,15 @@ TransactionList TransactionList::getTransactionsForDate(const Date& date) const
 	return rettr;
 }
 void TransactionList::deleteFirstTransaction() {
-    listOfTransactions_.deleteFirst();
+    //listOfTransactions_.deleteFirst();
+	listOfTransactions_.pop_front();
 }
-void TransactionList::deleteTransactionsUpToDate(const Date& date)
-{
-	// this-> refers to the actual transaction list not the copy
-	// *this is used to create a copy of transactions list to loop over (copytr)
 
-	TransactionList copytr(*this); // grab a copy to loop over
-	while (copytr.size() > 0)
-	{
-		if (copytr.newestTransaction().getDate() <= date)
-		{
-			this->deleteGivenTransaction(this->newestTransaction());
-		}
-		copytr.deleteFirstTransaction(); // move along the copy list
-	}
-}
 void TransactionList::deleteGivenTransaction(const Transaction& tr) {
-    listOfTransactions_.deleteOne(tr);
+    listOfTransactions_.remove(tr);
 }
 int TransactionList::size() const {
-    return (listOfTransactions_.length());
+    return (listOfTransactions_.size());
 }
 //option 6
 TransactionList TransactionList::getMostRecentTransactions(int number) const {
@@ -173,7 +184,7 @@ istream& TransactionList::getDataFromStream(istream& is) {
 	is >> aTransaction;	//read first transaction
 	while (is) 	//while not end of file
 	{
-		listOfTransactions_.addAtEnd(aTransaction);   //add transaction to list of transactions
+		listOfTransactions_.push_back(aTransaction);   //add transaction to list of transactions
 		is >> aTransaction;	//read in next transaction
 	}
 	return is;
