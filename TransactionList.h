@@ -10,7 +10,8 @@
 //TransactionList: class declaration
 //---------------------------------------------------------------------------
 
-#include "ListT.h"
+//#include "ListT.h"
+#include <list> // STL Container
 #include "Transaction.h"
 
 #include <cassert> 	// for assert()
@@ -36,7 +37,8 @@ public:
 	istream& getDataFromStream(istream& is);	//receive TransactionList info from an input stream
 
 private:
-    List<Transaction> listOfTransactions_;	//list of transactions
+    list<Transaction> listOfTransactions_;	//list of transactions
+	list<Transaction>::iterator it; // iterate through the transactions list
 };
 
 //---------------------------------------------------------------------------
