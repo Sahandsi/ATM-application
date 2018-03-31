@@ -109,7 +109,6 @@ TransactionList TransactionList::getTransactionsForDate(const Date& date) const
 	// loop through all the transactions
 	while (copytr.size() > 0)
 	{
-		//https://stackoverflow.com/questions/2340281/check-if-a-string-contains-a-string-in-c
 		if (copytr.newestTransaction().getDate() == date)
 		{
 			rettr.addNewTransaction(copytr.newestTransaction()); // add to the return transaction
@@ -143,29 +142,49 @@ TransactionList TransactionList::getMostRecentTransactions(int number) const {
 	return rettr;
 }
 //option 6
-double TransactionList::getTotalTransactions()
+double TransactionList::getTotalTransactions() const
 {
+	//double total = 0;
+	//TransactionList tempList(*this);
+	//while (tempList.size() > 0)
+	//{
+	//	total = total + tempList.newestTransaction().getAmount();
+	//	tempList.deleteFirstTransaction();
+	//}
+	//return total;
+
 	double total = 0;
-	TransactionList tempList(*this);
-
-	while (tempList.size() > 0)
+	list<Transaction>::const_iterator it;
+	it = listOfTransactions_.begin();
+	while (it != listOfTransactions_.end())
 	{
-		total = total + tempList.newestTransaction().getAmount();
-		tempList.deleteFirstTransaction();
+		total = total + it->getAmount();
+		it++;
 	}
-
 	return total;
 }
 const string TransactionList::toFormattedString() const {
-//return transaction list as a (formatted) string
+	//return transaction list as a (formatted) string
+	//ostringstream os_transactionlist;
+ //   TransactionList tempTrList(*this);
+	//while (! (tempTrList.size() == 0))
+ //   {
+	//	os_transactionlist << endl << tempTrList.newestTransaction().toFormattedString();
+ //       tempTrList.deleteFirstTransaction();
+ //   }
+	//return (os_transactionlist.str());
+
+	// loops through all the transactions and format them to a string
 	ostringstream os_transactionlist;
-    TransactionList tempTrList(*this);
-	while (! (tempTrList.size() == 0))
-    {
-		os_transactionlist << endl << tempTrList.newestTransaction().toFormattedString();
-        tempTrList.deleteFirstTransaction();
-    }
+	list<Transaction>::const_iterator it;
+	it = listOfTransactions_.begin();
+	while (it != listOfTransactions_.end())
+	{
+		os_transactionlist << endl << it->toFormattedString();
+		it++; 
+	}
 	return (os_transactionlist.str());
+
 }
 
 ostream& TransactionList::putDataInStream(ostream& os) const {
