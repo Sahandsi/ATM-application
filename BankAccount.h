@@ -44,8 +44,11 @@ public:
 	void produceTransactionsForDate(const Date& date, string& transString, int& size) const;
 	void readInBankAccountFromFile(const string& fileName);
 	void storeBankAccountInFile(const string& fileName) const;
+<<<<<<< HEAD
 	pair<string, double> produceNMostRecentTransactions(int number);
 	const string prepareFormattedMiniAccountDetails() const;
+=======
+>>>>>>> 20131ff99089848da1eed11fd2b17fde861bdb8b
 	//functions to put data into and get data from streams
 	ostream& putDataInStream(ostream& os) const;
 	ostream& putAccountDetailsInStream(ostream& os) const;

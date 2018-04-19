@@ -123,6 +123,7 @@ const string BankAccount::prepareFormattedStatement() const {
 	os << prepareFormattedTransactionList();
 	return os.str();
 }
+<<<<<<< HEAD
 const string BankAccount::prepareFormattedMiniAccountDetails() const
 {
 	assert(getAccountType(accountNumber_[0]) != "UNKNOWN");
@@ -135,6 +136,8 @@ const string BankAccount::prepareFormattedMiniAccountDetails() const
 	os << "\n      ----------------------------------------";
 	return os.str();
 }
+=======
+>>>>>>> 20131ff99089848da1eed11fd2b17fde861bdb8b
 void BankAccount::readInBankAccountFromFile(const string& fileName) {
 	ifstream fromFile;
 	fromFile.open(fileName.c_str(), ios::in); 	//open file in read mode
