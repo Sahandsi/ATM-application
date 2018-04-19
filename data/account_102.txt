@@ -1,4 +1,5 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 102
 10/12/2017
 200
@@ -15,3 +16,15 @@
 3/2/2018 13:42:49 withdrawal_from_ATM -12.5
 1/2/2018 10:4:24 deposit_to_ATM 150
 >>>>>>> 20131ff99089848da1eed11fd2b17fde861bdb8b
+=======
+102
+10/12/2017
+410
+100
+30/3/2018 16:18:56 transfer_from_401 50
+30/3/2018 15:48:44 transfer_from_301 160
+30/3/2018 15:9:15 transfer_from_101 150
+23/2/2018 15:45:5 withdrawal_from_ATM -333.33
+3/2/2018 13:42:49 withdrawal_from_ATM -12.5
+1/2/2018 10:4:24 deposit_to_ATM 150
+>>>>>>> 667bb85d5346ef16b9746e9917fb8d1dbffb1c10

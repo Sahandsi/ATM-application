@@ -25,6 +25,8 @@ public:
 	BankAccount();
     ~BankAccount();
 
+	BankAccount(const string & acctNum, const TransactionList & transList, const Date & cd, const double balance);
+
 	//getter (assessor) functions
     const string getAccountNumber() const;
     const Date getCreationDate() const;
@@ -33,11 +35,16 @@ public:
     bool isEmptyTransactionList() const;
 	void produceTransactionsUpToDate(const Date& d, int& size, string& transactionString) const;
 	//other operations
+	
 	const string prepareFormattedStatement() const;
-    void recordDeposit(double amount);
+	virtual void recordDeposit(double amount);
 	void recordDeletionOfTransactionUpToDate(const Date& date);
-	double maxBorrowable() const;
-	bool canWithdraw(double amount) const;
+	virtual double maxBorrowable() const;
+	virtual bool canWithdraw(double amount) const;
+	virtual bool canTransferIn(double amount) const;
+	virtual const bool canTransferOut(double amount) const;
+	void recordTransferOut(double amount, const string & transferAccountNum);
+	virtual void recordTransferIn(double amount, const string & activeAccountNum);
     void recordWithdrawal(double amount);
 	void produceTransactionsForAmount(double amount, string& transString, int& size) const;
 	void produceTransactionsForTitle(const string& title, string& transString, int& size) const;
@@ -45,17 +52,22 @@ public:
 	void readInBankAccountFromFile(const string& fileName);
 	void storeBankAccountInFile(const string& fileName) const;
 <<<<<<< HEAD
+<<<<<<< HEAD
 	pair<string, double> produceNMostRecentTransactions(int number);
 	const string prepareFormattedMiniAccountDetails() const;
 =======
 >>>>>>> 20131ff99089848da1eed11fd2b17fde861bdb8b
+=======
+	TransactionList produceNMostRecentTransactions(int number, string& transString, double& totalTrans) const;
+>>>>>>> 667bb85d5346ef16b9746e9917fb8d1dbffb1c10
 	//functions to put data into and get data from streams
 	ostream& putDataInStream(ostream& os) const;
-	ostream& putAccountDetailsInStream(ostream& os) const;
+	virtual ostream& putAccountDetailsInStream(ostream& os) const;
 	istream& getDataFromStream(istream& is);
-	istream& getAccountDataFromStream(istream& is);
+	virtual istream& getAccountDataFromStream(istream& is);
 
-	const string prepareFormattedAccountDetails() const;
+	virtual const string prepareFormattedAccountDetails() const = 0;
+	const string prepareFormattedMiniAccountDetails() const;
 	const string prepareFormattedTransactionList() const;
 	
 	static const string getAccountType(const string& filename);

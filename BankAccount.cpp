@@ -22,6 +22,12 @@ BankAccount::BankAccount()
 BankAccount::~BankAccount()
 {}
 
+BankAccount::BankAccount(const string& acctNum, const TransactionList& transList, const Date& cd, const double balance)
+	:	accountNumber_(acctNum),
+		transactions_(transList),
+		creationDate_(cd),
+		balance_(balance)
+{} 
 
 //____other public member functions
 
@@ -42,9 +48,15 @@ bool BankAccount::isEmptyTransactionList() const {
 }
 void BankAccount::produceTransactionsUpToDate(const Date& date, int& size, string& transactionString) const
 {
-	TransactionList trl = transactions_.getTransactionsUpToDate(date);
-	transactionString = trl.toFormattedString();
-	size = trl.size();
+	// ORIGINAL
+	//TransactionList trl = transactions_.getTransactionsUpToDate(date);
+	//transactionString = trl.toFormattedString();
+	//size = trl.size();
+
+	// RECURSIVE
+	TransactionList trlist = transactions_.getTransactionsUpToDate(date, transactions_);
+	transactionString = trlist.toFormattedString();
+	size = trlist.size();
 }
 //static
 const string BankAccount::getAccountType(const string& filename) {
@@ -57,9 +69,10 @@ const string BankAccount::getAccountType(char n) {
 	//'0' for bank account, '1' for current account, '2' for saving account, etc.
 	switch (n)
 	{
-	case BANKACCOUNT_TYPE:		return "BANK"; 
-//	case CURRENTACCOUNT_TYPE:	return "CURRENT"; break;
-//etc..
+	//case BANKACCOUNT_TYPE:		return "BANK";		break;
+	case CURRENTACCOUNT_TYPE:	return "CURRENT";	break;
+	case CHILDACCOUNT_TYPE:		return "CHILD";		break;
+	case ISAACCOUNT_TYPE:		return "ISA";		break;
 	default:					return "UNKNOWN";
 	}
 }
@@ -81,10 +94,43 @@ double BankAccount::maxBorrowable() const {
 	//return borrowable amount
 	return balance_;
 }
+
 bool BankAccount::canWithdraw(double amountToWithdraw) const {
 	//check if enough money in account
 	return amountToWithdraw <= maxBorrowable();
 }
+bool BankAccount::canTransferIn(double amount) const
+{
+	// will be differnt for other bank accounts such as a child account
+	// this method will be virtual for question 5 as well as the method below
+	return true;
+}
+
+const bool BankAccount::canTransferOut(double amount) const
+{
+	// check if the balance remaining after transfer will be greater than zero
+	return ((balance_ - amount) >= 0.0);
+}
+
+void BankAccount::recordTransferOut(double amount, const string& transferAccountNum)
+{
+	// active account. adding new transaction and updating the balance.
+	string strTransaction = ("transfer_to_" + transferAccountNum);
+	Transaction inTransaction(strTransaction, amount);
+	transactions_.addNewTransaction(inTransaction);
+	updateBalance(-amount); // decrease balance from active account
+}
+
+void BankAccount::recordTransferIn(double amount, const string& activeAccountNum)
+{
+	// transfer account. adding new transaction and updating the balance.
+	string strTransaction = ("transfer_from_" + activeAccountNum);
+	Transaction inTransaction(strTransaction, amount);
+	transactions_.addNewTransaction(inTransaction);
+	updateBalance(amount); // increase balance on transfer account
+}
+
+
 
 void BankAccount::recordWithdrawal(double amountToWithdraw) {
 	//create a withdrawal transaction
@@ -124,6 +170,7 @@ const string BankAccount::prepareFormattedStatement() const {
 	return os.str();
 }
 <<<<<<< HEAD
+<<<<<<< HEAD
 const string BankAccount::prepareFormattedMiniAccountDetails() const
 {
 	assert(getAccountType(accountNumber_[0]) != "UNKNOWN");
@@ -138,6 +185,20 @@ const string BankAccount::prepareFormattedMiniAccountDetails() const
 }
 =======
 >>>>>>> 20131ff99089848da1eed11fd2b17fde861bdb8b
+=======
+const string BankAccount::prepareFormattedMiniAccountDetails() const
+{
+	assert(getAccountType(accountNumber_[0]) != "UNKNOWN");
+	ostringstream os;
+
+	os << "\n      ACCOUNT NUMBER:  " << accountNumber_;
+	os << fixed << setprecision(2) << setfill(' ');
+	os << "\n      BALANCE:         \234" << setw(10) << balance_;
+	os << "\n      AVAILABLE FUNDS: \234" << setw(10) << maxBorrowable();
+	os << "\n      ----------------------------------------";
+	return os.str();
+}
+>>>>>>> 667bb85d5346ef16b9746e9917fb8d1dbffb1c10
 void BankAccount::readInBankAccountFromFile(const string& fileName) {
 	ifstream fromFile;
 	fromFile.open(fileName.c_str(), ios::in); 	//open file in read mode
@@ -155,7 +216,13 @@ pair<string, double> BankAccount::produceNMostRecentTransactions(int number)
 	string str = trl.toFormattedString();
 	return (make_pair(str, total));
 }
-
+TransactionList BankAccount::produceNMostRecentTransactions(int number, string& transString, double& totalTrans) const
+{
+	TransactionList trl = transactions_.getMostRecentTransactions(number);
+	totalTrans = trl.getTotalTransactions();
+	transString = trl.toFormattedString();
+	return trl;
+}
 void BankAccount::storeBankAccountInFile(const string& fileName) const {
 	ofstream toFile;
 	toFile.open(fileName.c_str(), ios::out);	//open copy file in write mode

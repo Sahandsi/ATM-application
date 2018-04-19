@@ -42,6 +42,23 @@ void UserInterface::showTransactionsUpToDateOnScreen(bool isEmpty, const Date& d
 	}
 }
 
+void UserInterface::showFundsAvailableOnScreen(bool isAccountEmpty, const string& statement, double totalMaxBorrowable) const
+{
+	if (isAccountEmpty)
+	{
+		outputLine("NO ACCOUNT ACCESSIBLE WITH THIS CARD");
+	}
+	else
+	{
+		ostringstream os;
+		os << statement;
+		os << "\n" << setfill(' ');
+		os << "\n      TOTOAL AVAILABLE FUNDS: \234" << totalMaxBorrowable;
+		outputLine(os.str());
+	}
+
+}
+
 void UserInterface::showMatchingTransactionsOnScreen(double amount, int size, const string & transString) const
 {
 	ostringstream os;
@@ -68,6 +85,34 @@ void UserInterface::showMatchingTransactionsOnScreen(const Date& date, int size,
 	os << setw(2) << date.getMonth() << "/";
 	os << setw(4) << date.getYear();
 	outputLine(os.str());
+}
+
+void UserInterface::showTransferOnScreen(bool trOutOk, bool trInOk, double transferAmount) const
+{
+	ostringstream os;
+	// transaction can take place
+	if (trOutOk && trInOk)
+	{
+		os << "THE TRANSFER HAS BEEN SUCCESSFUL: ";
+		os << "\x9C" << transferAmount;
+		outputLine(os.str());
+	}
+
+	// active account cannot transfer money to other account
+	if (!trOutOk)
+	{
+		os << "INSUFFICENT FUNDS TO TRANSFER ";
+		os << "\x9c" << transferAmount;
+		outputLine(os.str());
+	}
+
+	// transfer amount cannot recieve money
+	if (!trInOk)
+	{
+		os << "TRANSFER ACCOUNT CANNOT RECIEVE ";
+		os << "\x9c" << transferAmount;
+		outputLine(os.str());
+	}
 }
 
 int UserInterface::showMainMenuAndGetCommand() const
@@ -126,6 +171,11 @@ void UserInterface::showValidateCardOnScreen(int validCode, const string& cardNu
 		outputLine("ERROR: CARD " + cardNumber + " DOES NOT LINK TO ANY ACCOUNTS");
 	} break;
 	}
+}
+
+void UserInterface::showCardOnScreen(const string& cardDetails) const
+{
+	outputLine(cardDetails);
 }
 
 int UserInterface::showCardMenuAndGetCommand(const string& cardNumber) const
@@ -197,6 +247,7 @@ void UserInterface::showValidateAccountOnScreen(int validCode, const string& acc
 	{
 	case VALID_ACCOUNT:
 	{
+		outputLine("THE ACCOUNT " + accNum + " IS NOW OPEN!");
 		// Account exists and is accessible with that card (and not already open: TO BE IMPLEMENTED)
 	} break;
 	case INVALID_ACCOUNT_TYPE:
@@ -210,6 +261,10 @@ void UserInterface::showValidateAccountOnScreen(int validCode, const string& acc
 	case UNACCESSIBLE_ACCOUNT:
 	{
 		outputLine("ERROR: ACCOUNT " + accNum + " IS NOT ACCESSIBLE WITH THIS CARD!");
+	} break;
+	case SAME_ACCOUNT:
+	{
+		outputLine("ERROR: ACCOUNT " + accNum + " IS ALREADY OPEN");
 	} break;
 	}
 }
@@ -225,7 +280,12 @@ const string UserInterface::accountFilename(const string& an) {
 }
 
 //input functions
-
+//option 6 
+int UserInterface::readInNumberOfTransactions() const
+{
+	outputLine("NUMBER OF TRANSACTIONS TO VIEW: ");
+	return (readInPositiveNumber());
+}
 double UserInterface::readInWithdrawalAmount() const {
 	//ask for the amount to withdraw
 	outputLine("AMOUNT TO WITHDRAW: \234");
@@ -269,6 +329,12 @@ Date UserInterface::readInValidDate(const Date& cd) const
 int UserInterface::readInSearchCommand() const
 {
 	return readInCommand();
+}
+
+const double UserInterface::readInTransferAmount() const
+{
+	outputLine("PLEASE ENTER THE TRANSFER AMOUNT");
+	return readInPositiveAmount();
 }
 
 string UserInterface::readInTitle() const
@@ -357,7 +423,26 @@ void UserInterface::showErrorInvalidCommand() const
 {
 	outputLine("INVALID COMMAND CHOICE, TRY AGAIN");
 }
-
+void UserInterface::showMiniStatementOnScreen(bool isEmpty, double total, string str) const
+{
+	outputHeader("PREPARING MINI STATEMENT...");
+	ostringstream os;
+	
+	if (!isEmpty)
+	{
+		os << "RECENT TRANSACTIONS REQUESTED AT ";
+		os << Time::currentTime().toFormattedString();
+		os << " ON ";
+		os << Date::currentDate().toFormattedString();
+		os << str;
+		os << "\n      TOTAL: \234 " << fixed << setprecision(2) << total;
+		outputLine(os.str());
+	}
+	else
+	{
+		showNoTransactionsOnScreen();
+	}
+}
 double UserInterface::readInPositiveAmount() const
 {
 	double amount;
@@ -371,7 +456,20 @@ double UserInterface::readInPositiveAmount() const
 
 	return amount;
 }
+//option 6 
+int UserInterface::readInPositiveNumber() const
+{
+	int number;
+	cin >> number;
 
+	while (number <= 0)
+	{
+		outputLine("NUMBER SHOULD BE POSITIVE, TRY AGAIN: ");
+		cin >> number; 
+	}
+
+	return number;
+}
 void UserInterface::outputHeader(const string& header) const
 {
 	// calculate lengths so we can centre the header
