@@ -67,34 +67,12 @@ bool ChildAccount::canTransferIn(double amount) const
 
 double ChildAccount::maxBorrowable() const
 {
-	
-	double amountFromSavings = SavingsAccount::maxBorrowable();
-
-	// if less money is available the minimum amount of money that can be withdrawn
-	if (amountFromSavings < minimumPaidIn_)
-	{
-		return 0.0; // cannot withdraw any money
-	}
-	// in between 
-	else if (amountFromSavings < maximumPaidIn_)
-	{
-		return minimumPaidIn_;
-	}
-	// above maximum paid in
-	else 
-	{
-		return maximumPaidIn_;
-	}
+	return 0;
 }
 
 bool ChildAccount::canWithdraw(double amount) const
 {
-	//// check if amount is valid and less than max borrowable 
-	//// and balance remains greater than minimum balance
-	//return ((amount >= 0.0) && ((amount >= minimumPaidIn_) 
-	//	&& (amount <= maximumPaidIn_)) && (amount <= maxBorrowable()) 
-	//	&& (SavingsAccount::canWithdraw(amount)));
-	return amount >= 0.0 && amount <= maxBorrowable();
+	return false;
 }
 
 
