@@ -1,7 +1,7 @@
 //Pascale Vacher - February 18
 //OOP Assignment Task 1c - Semester 2
-//Group Number:
-//Team: (indicate member names, students numbers and courses)
+//Group Number: 18
+//Team: Asghar Mahmood b6005405, Claire Smith b6008661, Sam Simaei b5038121, Deepak Jindal b6019531 ALL SOFTWARE ENGINEERING
 
 #ifndef CardH
 #define CardH
