@@ -93,6 +93,7 @@ void UserInterface::showTransferOnScreen(bool trOutOk, bool trInOk, double trans
 	// transaction can take place
 	if (trOutOk && trInOk)
 	{
+		
 		os << "THE TRANSFER HAS BEEN SUCCESSFUL: ";
 		os << "\x9C" << transferAmount;
 		outputLine(os.str());
@@ -101,6 +102,7 @@ void UserInterface::showTransferOnScreen(bool trOutOk, bool trInOk, double trans
 	// active account cannot transfer money to other account
 	if (!trOutOk)
 	{
+		
 		os << "INSUFFICENT FUNDS TO TRANSFER ";
 		os << "\x9c" << transferAmount;
 		outputLine(os.str());
@@ -109,6 +111,7 @@ void UserInterface::showTransferOnScreen(bool trOutOk, bool trInOk, double trans
 	// transfer amount cannot recieve money
 	if (!trInOk)
 	{
+		
 		os << "TRANSFER ACCOUNT CANNOT RECIEVE ";
 		os << "\x9c" << transferAmount;
 		outputLine(os.str());

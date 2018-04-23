@@ -130,6 +130,7 @@ int ATM::validateAccount(const string& filename) const {
 
 	// TEMPORARY p_BA ACTIVATING A BANK ACCOUNT WITH THIS FILENAME
 	BankAccount* p_tempBankAccount = activateAccount(filename);
+	assert(p_tempBankAccount != nullptr);
 
 	int accountState;
 	if (!canOpenFile(filename))
@@ -228,6 +229,7 @@ void ATM::searchTransactions() const
 
 void ATM::recordTransfer(double transferAmount, BankAccount* transferAccout)
 {
+	assert(transferAccout != nullptr);
 	// transfer account
 	string tAN = transferAccout->getAccountNumber();
 	p_theActiveAccount_->recordTransferOut(transferAmount, tAN);
@@ -239,6 +241,7 @@ void ATM::recordTransfer(double transferAmount, BankAccount* transferAccout)
 
 void ATM::m_trl1_showTransactionsForAmount() const
 {
+	assert(p_theActiveAccount_ != nullptr);
 	string transString;
 	int size;
 
@@ -252,6 +255,7 @@ void ATM::m_trl1_showTransactionsForAmount() const
 
 void ATM::m_trl1_showTransactionsForTitle() const
 {
+	assert(p_theActiveAccount_ != nullptr);
 	string transString;
 	int size;
 
@@ -265,6 +269,7 @@ void ATM::m_trl1_showTransactionsForTitle() const
 
 void ATM::m_trl1_showTransactionsForDate() const
 {
+	assert(p_theActiveAccount_ != nullptr);
 	string transString;
 	int size;
 	Date cd = p_theActiveAccount_->getCreationDate();
@@ -279,6 +284,7 @@ void ATM::m_trl1_showTransactionsForDate() const
 
 void ATM::attemptTransfer(BankAccount* transferAccount)
 {
+	assert(p_theActiveAccount_ != nullptr);
 	double transferAmount = theUI_.readInTransferAmount();
 	bool trOutOK = p_theActiveAccount_->canTransferOut(transferAmount);
 	bool trInOk = transferAccount->canTransferIn(transferAmount);
@@ -350,6 +356,7 @@ void ATM::m_acct6_showMiniStatement() const {
 //---option 7
 void ATM::m_acct7_searchForTransactions() const
 {
+	assert(p_theActiveAccount_ != nullptr);
 	bool isEmpty = p_theActiveAccount_->isEmptyTransactionList();
 	if (isEmpty)
 	{
@@ -403,6 +410,7 @@ void ATM::m_acct8_clearTransactionsUpToDate() {
 //---option 9
 void ATM::m_acct9_transferCashToAnotherAccount()
 {
+	assert(p_theActiveAccount_ != nullptr);
 	// set it to null to avoid dangling pointer.
 	BankAccount* transferAccount(nullptr);
 

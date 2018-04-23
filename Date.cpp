@@ -180,9 +180,7 @@ bool Date::operator<(const Date& d) const { //NEW
 
 bool Date::operator <=(const Date& d) const {
 	return
-		((day_ <= d.day_) &&
-		(month_ <= d.month_) &&
-		(year_ <= d.year_));
+		(!(*this > d));
 }
 
 bool Date::operator>(const Date& d) const {

@@ -23,8 +23,6 @@ double ChildAccount::getMinimumPaidIn() const
 	return minimumPaidIn_;
 }
 
-
-
 ostream& ChildAccount::putAccountDetailsInStream(ostream & os) const
 {
 	//put (unformatted) BankAccount details in stream
