@@ -1,8 +1,7 @@
 //Pascale Vacher - February 18
 //OOP Assignment Task 1c - Semester 2
-//Group Number:
-//Team: (indicate member names, students numbers and courses)
-
+//Group Number: 18
+//Team: Asghar Mahmood b6005405, Claire Smith b6008661, Sam Simaei b5038121, Deepak Jindal b6019531 ALL SOFTWARE ENGINEERING
 #include "TransactionList.h"
 
 //---------------------------------------------------------------------------
@@ -20,7 +19,6 @@ void TransactionList::addNewTransaction(const Transaction& tr) {
 	//listOfTransactions_.addInFront(tr);
 	// insert at beginning of the list
     listOfTransactions_.insert(listOfTransactions_.begin(), tr);
-	
 }
 const Transaction TransactionList::newestTransaction() const {
     //return (listOfTransactions_.first());
